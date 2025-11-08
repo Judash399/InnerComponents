@@ -1,0 +1,27 @@
+{
+	"name": "StudioComponnents Storys",
+	"servePlaceIds": [
+		0
+	],
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			
+			"Packages": {
+				"$className": "Folder",
+
+				"StudioComponnents": {
+				"$path": "default.project.json"
+				},
+
+				"$path": "Packages"
+			},
+
+            "Stories": {
+                "$path": "Stories",
+                "$className": "Folder"
+            }
+		}
+	}
+}

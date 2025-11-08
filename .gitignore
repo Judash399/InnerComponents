@@ -1,0 +1,9 @@
+# Project place file
+/StudioComponents.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Ignore Packages folder
+/Packages
