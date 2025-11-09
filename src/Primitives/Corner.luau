@@ -5,7 +5,7 @@ return function(scope: Fusion.Scope<any>)
     return function(props: {
     })
         return scope:New "UICorner" {
-            CornerRadius = UDim.new(0.35, 0)
+            CornerRadius = UDim.new(0, 10)
         }
     end
 end

@@ -4,7 +4,9 @@ local Interaction = script.Interaction
 
 local components = {
     Interaction = {
-        Button = require(Interaction.Button)
+        BaseButton = require(Interaction.BaseButton),
+        TextButton = require(Interaction.TextButton),
+        IconButton = require(Interaction.IconButton),
     }
 }
 

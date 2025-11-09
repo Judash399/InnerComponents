@@ -1,4 +1,3 @@
-local UserInputService = game:GetService("UserInputService")
 local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
@@ -13,8 +12,7 @@ return function(scope: Fusion.Scope<any>)
         theme: Theme.ThemeColor?,
         parent: Instance?,
         Size: UsedAs<UDim2>?,
-        Text: UsedAs<string>?,
-
+        Pressed: () -> ()
     })
         local scope = scope:innerScope()
 
@@ -40,12 +38,6 @@ return function(scope: Fusion.Scope<any>)
             Name = "TestButton!",
             Size = props.Size or UDim2.new(0, 200, 0, 50),
             BackgroundColor3 = Theme:GetTheme(props.theme or "Button"),
-            
-            --[[
-            Text = props.Text or "Text Button",
-            FontFace = Font.new("rbxasset://fonts/families/Roboto.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
-            TextColor3 = Theme:GetTheme("ButtonText"),
-            ]]
             ClipsDescendants = true,
 
             [OnEvent "MouseEnter"] = function()
@@ -59,6 +51,8 @@ return function(scope: Fusion.Scope<any>)
                 MousePos:set(Vector2.new(x, y))
             end,
 
+            [OnEvent "Activated"] = props.Pressed,
+
             
 
             [Children] = {
@@ -71,8 +65,9 @@ return function(scope: Fusion.Scope<any>)
 
         local highlight = scope:New "ImageLabel" {
             Parent = button,
-            Size = UDim2.new(0, 100, 0, 100),
+            Size = UDim2.new(0, 150, 0, 150),
             BackgroundTransparency = 1,
+            ZIndex = -1,
             AnchorPoint = Vector2.new(.5, .5),
             Image = "http://www.roblox.com/asset/?id=5538771868",
             ImageTransparency = scope:Computed(function(use)
