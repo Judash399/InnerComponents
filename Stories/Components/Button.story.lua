@@ -7,7 +7,6 @@ local Fusion = require(Packages.fusion)
 local StudioComponents = require(Packages.StudioComponnents)
 
 local controls = {
-    Filled = true,
     Text = "Text Button",
 }
 
@@ -17,10 +16,10 @@ local story = {
 
     story = function(props)
         StudioComponents.Interaction.Button(props.scope) {
-            theme = "Main",
+            theme = "Button",
             parent = props.target,
-            Filled = props.controls.Filled,
-            Text = props.controls.Text
+            Text = props.controls.Text,
+            Size = UDim2.new(0, 35, 0, 35)
         }
     end
 }

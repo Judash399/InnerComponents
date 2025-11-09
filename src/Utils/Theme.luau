@@ -24,7 +24,10 @@ end
 
 Theme:ChangeTheme({
 Main = Color3.new(1, 0, 0),
-ButtonText = Color3.new(1, 1, 1),
+ButtonText = Color3.new(0, 0, 0),
+Button = Color3.new(0.223529, 0.592156, 0.803921),
+ButtonOutline = Color3.new(0.294117, 0.643137, 0.843137),
+Outline = Color3.new(.9, .9, .9),
 })
 
 return Theme

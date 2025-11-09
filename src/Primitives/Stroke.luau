@@ -7,10 +7,11 @@ return function(scope: Fusion.Scope<any>)
         Color: Theme.ThemeColor
     })
         return scope:New "UIStroke" {
-            Thickness = 2,
-            Color = Theme:GetTheme(props.Color or "Main"),
+            Thickness = 3,
+            Color = Theme:GetTheme(props.Color or "Outline"),
             Transparency = 0,
-            ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+            BorderStrokePosition = Enum.BorderStrokePosition.Inner
         }
     end
 end
