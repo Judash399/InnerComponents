@@ -23,25 +23,39 @@ return function(scope: Fusion.Scope<any>)
         local Hovering = scope:Value(false)
 	    local MousePos = scope:Value(Vector2.new(0, 0))
 
+        local color = Theme:GetTheme(props.theme or "Button")
+
+        local FinalColor = scope:Computed(function(use)
+            local color = use(color)
+
+            if use(Hovering) then
+                return Color3.new(color.R + .04, color.G + .04, color.B + 0.04)
+            else
+                return color
+            end
+        end)
+
         local canvasGroup = scope:New "CanvasGroup" {
             Size = props.Size or UDim2.new(0, 200, 0, 50),
             Parent = props.parent,
             BackgroundTransparency = 1,
 
             [Children] = {
-                Corner {},
+                Corner {
+                    Level = 1,
+                },
             }
         }
 
         local button = scope:New "TextButton" {
             Parent = canvasGroup,
-            Name = "TestButton!",
+            Name = "Button",
             Size = props.Size or UDim2.new(0, 200, 0, 50),
-            BackgroundColor3 = Theme:GetTheme(props.theme or "Button"),
+            BackgroundColor3 = FinalColor,
             ClipsDescendants = true,
 
             [OnEvent "MouseEnter"] = function()
-			Hovering:set(true)
+			    Hovering:set(true)
 		    end,
             [OnEvent "MouseLeave"] = function()
                 Hovering:set(false)
@@ -85,6 +99,6 @@ return function(scope: Fusion.Scope<any>)
             end)
         }
 
-        return button
+        return canvasGroup
     end
 end
