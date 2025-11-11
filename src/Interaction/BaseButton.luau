@@ -12,7 +12,8 @@ return function(scope: Fusion.Scope<any>)
         theme: Theme.ThemeColor?,
         parent: Instance?,
         Size: UsedAs<UDim2>?,
-        Pressed: () -> ()
+        Pressed: () -> (),
+        Background: boolean?
     })
         local scope = scope:innerScope()
 
@@ -27,6 +28,10 @@ return function(scope: Fusion.Scope<any>)
 
         local FinalColor = scope:Computed(function(use)
             local color = use(color)
+            
+            if props.Background == false then
+                return Color3.new(1, 1, 1)
+            end
 
             if use(Hovering) then
                 return Color3.new(color.R + .04, color.G + .04, color.B + 0.04)
@@ -67,15 +72,33 @@ return function(scope: Fusion.Scope<any>)
 
             [OnEvent "Activated"] = props.Pressed,
 
-            
+            BackgroundTransparency = scope:Computed(function(use)
+                local hover = use(Hovering)
+                if props.Background == true or props.Background == nil then
+                    return 0
+                else
+                    if hover then
+                        return .97
+                    else 
+                        return 1
+                    end
+                end
+            end),
 
             [Children] = {
-                Stroke {
-                    Color = "ButtonOutline"
-                },
                 Corner {},
             }
         }
+
+        if props.Background == true or props.Background == nil then
+            scope:Hydrate(button) {
+                [Children] = {
+                    Stroke {
+                        Color = "ButtonOutline"
+                    },
+                }
+            }
+        end
 
         local highlight = scope:New "ImageLabel" {
             Parent = button,

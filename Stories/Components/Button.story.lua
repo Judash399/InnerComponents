@@ -36,8 +36,7 @@ local story = {
             Size = UDim2.new(0, 100, 0, 30),
             IconID = FinalIcon
         }
-
-
+        
     end
 }
 

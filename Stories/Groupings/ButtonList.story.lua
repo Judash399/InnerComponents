@@ -27,6 +27,16 @@ local story = {
                 Button {
                     Text = "Test!",
                     Size = UDim2.new(0, 100, 0, 30),
+                },
+
+                props.scope:New "UIListLayout" {
+                    FillDirection = Enum.FillDirection.Horizontal,
+                    Padding = UDim.new(0, 5),
+                },
+
+                StudioComponents.Interaction.IconButton(props.scope) {
+                    IconName = "x",
+                    Background = false,
                 }
             }
         }
