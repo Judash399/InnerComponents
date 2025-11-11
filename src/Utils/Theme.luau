@@ -1,4 +1,5 @@
 local Fusion = require(script.Parent.Parent.Parent.fusion)
+local OklabConverter = require(script.Parent.OklabConverter)
 
 --Types
 export type ThemeColor = "Main" | "ButtonText"
@@ -11,33 +12,45 @@ local CurrentTheme = Scope:Value({
 
 })
 
-function Theme:ChangeTheme(Theme)
-    CurrentTheme:set(Theme)
+local function SetTheme(ThemeColors)
+    CurrentTheme:set(ThemeColors)
+end
+
+function Theme:SetAcent(AccentHue: number)
+
+    --TODO: This does need to have a light theme.
+
+    local colors = {
+        Primary = OklabConverter.OklchToRGB({L = .75, C = .12, H = AccentHue}),
+        Success = Color3.fromRGB(39, 201, 101),
+        Error = Color3.fromRGB(224, 85, 85),
+        Warning = Color3.fromRGB(231, 203, 76),
+
+        Background = Color3.fromRGB(15, 15, 21),
+        CardBackground = Color3.fromRGB(21, 21, 27),
+        InnerCardBackground = Color3.fromRGB(30, 30, 36), --Basicly so you can have cards inside cards.
+
+        MainText = Color3.new(.95, .95, .95),
+        TextSecondary = Color3.new(.5, .5, .5),
+
+        --Buttons
+        PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = .8, C = .1, H = AccentHue}),
+        PrimaryButtonPress = OklabConverter.OklchToRGB({L = .36, C = .06, H = AccentHue}),
+        PrimaryButtonGlow = Color3.new(1, 1, 1),
+
+        SecondaryButton = Color3.fromRGB(150, 150, 150),
+        SecondaryButtonHighlight = OklabConverter.OklchToRGB({L = .77, C = .04, H = AccentHue}),
+        SecondaryButtonPress = OklabConverter.OklchToRGB({L = .5, C = .06, H = AccentHue}),
+        SecondaryButtonGlow = Color3.new(1, 1, 1)
+    }
+
+    SetTheme(colors)
 end
 
 function Theme:GetTheme(ThemeColor: ThemeColor)
     return Fusion.Computed(Scope, function(use, scope)
         return use(CurrentTheme)[ThemeColor]
     end)
-
 end
-
-Theme:ChangeTheme({
-Main = Color3.new(1, 0, 0),
-
---Button Colors
-ButtonText = Color3.new(1, 1, 1),
-ButtonIcon = Color3.new(1, 1, 1),
-Button = Color3.new(0.223529, 0.592156, 0.803921),
-ButtonOutline = Color3.new(0.294117, 0.643137, 0.843137),
-
-Outline = Color3.new(.9, .9, .9),
-
---Hierarchy
-Frame = Color3.new(0.141176, 0.141176, 0.176470),
-
---Content
-Text = Color3.new(1, 1, 1),
-})
 
 return Theme
