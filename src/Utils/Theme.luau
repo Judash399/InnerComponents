@@ -34,7 +34,10 @@ ButtonOutline = Color3.new(0.294117, 0.643137, 0.843137),
 Outline = Color3.new(.9, .9, .9),
 
 --Hierarchy
-Frame = Color3.new(0.141176, 0.141176, 0.176470)
+Frame = Color3.new(0.141176, 0.141176, 0.176470),
+
+--Content
+Text = Color3.new(1, 1, 1),
 })
 
 return Theme

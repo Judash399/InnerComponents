@@ -1,5 +1,5 @@
 {
-	"name": "StudioComponnents Storys",
+	"name": "StudioComponents Storys",
 	"servePlaceIds": [
 		0
 	],
@@ -11,7 +11,7 @@
 			"Packages": {
 				"$className": "Folder",
 
-				"StudioComponnents": {
+				"StudioComponents": {
 				"$path": "default.project.json"
 				},
 

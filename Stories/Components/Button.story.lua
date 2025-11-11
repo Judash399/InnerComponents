@@ -4,7 +4,7 @@
 
 local Packages = script.Parent.Parent.Parent.Packages
 local Fusion = require(Packages.fusion)
-local StudioComponents = require(Packages.StudioComponnents)
+local StudioComponents = require(Packages.StudioComponents)
 
 local controls = {
     Text = "Button",
@@ -28,7 +28,6 @@ local story = {
                 return icon
             end
         end)
-
         StudioComponents.Interaction.TextButton(props.scope) {
             theme = "Button",
             parent = props.target,
@@ -36,7 +35,6 @@ local story = {
             Size = UDim2.new(0, 100, 0, 30),
             IconID = FinalIcon
         }
-        
     end
 }
 
