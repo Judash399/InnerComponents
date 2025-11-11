@@ -10,4 +10,9 @@ dependencies = []
 [[package]]
 name = "judash399/studiocomponents"
 version = "0.1.0"
-dependencies = [["fusion", "elttob/fusion@0.3.0"]]
+dependencies = [["fusion", "elttob/fusion@0.3.0"], ["lucide-icons", "latte-soft/lucide-icons@0.1.3"]]
+
+[[package]]
+name = "latte-soft/lucide-icons"
+version = "0.1.3"
+dependencies = []
