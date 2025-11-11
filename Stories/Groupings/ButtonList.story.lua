@@ -4,7 +4,7 @@
 
 local Packages = script.Parent.Parent.Parent.Packages
 local Fusion = require(Packages.fusion)
-local StudioComponents = require(Packages.StudioComponents)
+local InnerComponents = require(Packages.InnerComponents)
 
 local controls = {
 }
@@ -14,10 +14,10 @@ local story = {
     controls = controls,
 
     story = function(props)
-        local Frame = StudioComponents.Layout.Frame(props.scope)
-        local Button = StudioComponents.Interaction.TextButton(props.scope)
-        local Padding = StudioComponents.Layout.Padding(props.scope)
-        local Text = StudioComponents.Content.Text(props.scope)
+        local Frame = InnerComponents.Layout.Frame(props.scope)
+        local Button = InnerComponents.Interaction.TextButton(props.scope)
+        local Padding = InnerComponents.Layout.Padding(props.scope)
+        local Text = InnerComponents.Content.Text(props.scope)
 
         --TODO: Make this
         return Frame {
@@ -33,7 +33,7 @@ local story = {
                     VerticalAlignment = Enum.VerticalAlignment.Center,
                 },
 
-                StudioComponents.Content.ImageIcon(props.scope) {
+                InnerComponents.Content.ImageIcon(props.scope) {
                     IconName = "alert-triangle",
                     Size = UDim2.new(1, -10, 1, -10),
                 },
@@ -48,7 +48,7 @@ local story = {
                     }
                 },
 
-                StudioComponents.Interaction.IconButton(props.scope) {
+                InnerComponents.Interaction.IconButton(props.scope) {
                     IconName = "x",
                     Background = false,
                 }

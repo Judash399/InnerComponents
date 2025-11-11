@@ -4,7 +4,7 @@
 
 local Packages = script.Parent.Parent.Parent.Packages
 local Fusion = require(Packages.fusion)
-local StudioComponents = require(Packages.StudioComponents)
+local InnerComponents = require(Packages.InnerComponents)
 
 local controls = {
     Text = "Button",
@@ -28,7 +28,7 @@ local story = {
                 return icon
             end
         end)
-        StudioComponents.Interaction.TextButton(props.scope) {
+        InnerComponents.Interaction.TextButton(props.scope) {
             theme = "Button",
             parent = props.target,
             Text = props.controls.Text,
