@@ -7,6 +7,7 @@ local Fusion = require(Packages.fusion)
 local InnerComponents = require(Packages.InnerComponents)
 
 local controls = {
+    hue = 0,
 }
 
 local story = {
@@ -18,6 +19,8 @@ local story = {
         local Button = InnerComponents.Interaction.TextButton(props.scope)
         local Padding = InnerComponents.Layout.Padding(props.scope)
         local Text = InnerComponents.Content.Text(props.scope)
+
+        InnerComponents.SetAcent(props.controls.hue)
 
         --TODO: Make this
         return Frame {

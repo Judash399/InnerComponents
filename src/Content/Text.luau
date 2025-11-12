@@ -27,7 +27,7 @@ return function(scope: Fusion.Scope<any>)
             Size = props.Size,
             FontFace = Font.new("rbxasset://fonts/families/Roboto.json", props.Weight or Enum.FontWeight.Regular, props.Style or Enum.FontStyle.Normal),
             TextSize = props.TextSize or 16,
-            TextColor3 = Theme:GetTheme(props.TextTheme or "Text"),
+            TextColor3 = Theme:GetTheme(props.TextTheme or "MainText"),
             TextXAlignment = props.XAlign or Enum.TextXAlignment.Left,
             TextYAlignment = props.YAlign or Enum.TextYAlignment.Center,
             AutomaticSize = props.AutomaticSize,

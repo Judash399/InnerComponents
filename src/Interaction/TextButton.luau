@@ -2,6 +2,7 @@ local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Button = require(script.Parent.BaseButton)
 local Text = require(Root.Content.Text)
+local ImageIcon = require(Root.Content.ImageIcon)
 local Theme = require(Root.Utils.Theme)
 
 local Children = Fusion.Children
@@ -16,7 +17,7 @@ return function(scope: Fusion.Scope<any>)
         Text: UsedAs<string>?,
         Pressed: () -> (),
         TextTheme: Theme.ThemeColor?,
-        IconID: UsedAs<string>?,
+        Icon: string,
     })
         local scope = scope:innerScope()
 
@@ -45,6 +46,7 @@ return function(scope: Fusion.Scope<any>)
                     TextTheme = props.TextTheme or "ButtonText",
                     XAlign = Enum.TextXAlignment.Center
                 },
+                --[[
                 scope:New "ImageLabel" {
                     Size = UDim2.new(0, 13, 0, 13),
                     Image = props.IconID or "",
@@ -60,8 +62,19 @@ return function(scope: Fusion.Scope<any>)
                         end
                     end)
                 }
+                ]]
             }
         }
+
+        --TODO: Icon needs to be re-added to text button!
+
+        --[[
+        local icon = ImageIcon(scope) {
+            Parent = content,
+            Image = props.Icon,
+            Size = UDim2.new(0, 13, 0, 13),
+        }
+        ]]
         
 
         return button

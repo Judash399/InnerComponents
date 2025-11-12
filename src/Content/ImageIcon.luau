@@ -16,14 +16,18 @@ return function(scope: Fusion.Scope<any>)
         Parent: Instance?
     })
 
+        local IconInfo = Icon.GetIcon(props.IconName)
+
         return scope:New "ImageLabel" {
             Size = props.Size or UDim2.new(1, -5, 1, -5),
             Position = props.Position or UDim2.new(.5, 0, .5, 0),
             AnchorPoint = props.AnchorPoint or Vector2.new(.5, .5),
-            Image = Icon.GetIcon(props.IconName),
+            Image = IconInfo.Url,
+            ImageRectSize = IconInfo.ImageRectSize,
+            ImageRectOffset = IconInfo.ImageRectOffset,
             BackgroundTransparency = 1,
             ImageTransparency = 0,
-            ImageColor3 = Theme:GetTheme(props.Theme or "Text"),
+            ImageColor3 = Theme:GetTheme(props.Theme or "MainText"),
             Parent = props.Parent,
             [Children] = {
                 scope:New "UIAspectRatioConstraint" {},

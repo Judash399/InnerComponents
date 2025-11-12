@@ -8,15 +8,14 @@ local Theme = {}
 
 local Scope = Fusion.scoped(Fusion)
 
-local CurrentTheme = Scope:Value({
-
-})
+local CurrentTheme = Scope:Value()
 
 local function SetTheme(ThemeColors)
     CurrentTheme:set(ThemeColors)
 end
 
-function Theme:SetAcent(AccentHue: number)
+function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
+    local AccentHue = Fusion.peek(Accent)
 
     --TODO: This does need to have a light theme.
 
@@ -37,11 +36,13 @@ function Theme:SetAcent(AccentHue: number)
         PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = .8, C = .1, H = AccentHue}),
         PrimaryButtonPress = OklabConverter.OklchToRGB({L = .36, C = .06, H = AccentHue}),
         PrimaryButtonGlow = Color3.new(1, 1, 1),
+        PrimaryContent = Color3.new(1, 1, 1),
 
         SecondaryButton = Color3.fromRGB(150, 150, 150),
         SecondaryButtonHighlight = OklabConverter.OklchToRGB({L = .77, C = .04, H = AccentHue}),
         SecondaryButtonPress = OklabConverter.OklchToRGB({L = .5, C = .06, H = AccentHue}),
-        SecondaryButtonGlow = Color3.new(1, 1, 1)
+        SecondaryButtonGlow = Color3.new(1, 1, 1),
+        SecondaryContent = Color3.new(0, 0, 0),
     }
 
     SetTheme(colors)

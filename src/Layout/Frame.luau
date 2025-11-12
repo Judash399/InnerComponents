@@ -19,7 +19,7 @@ return function(scope: Fusion.Scope<any>)
 
         return scope:New "Frame" {
             Size = props.Size,
-            BackgroundColor3 = Theme:GetTheme("Frame"),
+            BackgroundColor3 = Theme:GetTheme("CardBackground"),
 
             [Children] = {
                 Corner {Level = Level},

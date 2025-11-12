@@ -4,6 +4,8 @@ local Interaction = script.Interaction
 local Layout = script.Layout
 local Content = script.Content
 
+local Theme = require(script.Utils.Theme)
+
 local components = {
     Interaction = {
         BaseButton = require(Interaction.BaseButton),
@@ -19,7 +21,9 @@ local components = {
     Content = {
         Text = require(Content.Text),
         ImageIcon = require(Content.ImageIcon),
-    }
+    },
+
+    SetAcent = Theme.SetAcent
 }
 
 return components

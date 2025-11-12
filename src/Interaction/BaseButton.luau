@@ -9,7 +9,7 @@ type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
-        theme: Theme.ThemeColor?,
+        Primary: boolean?,
         parent: Instance?,
         Size: UsedAs<UDim2>?,
         Pressed: () -> (),
@@ -24,7 +24,14 @@ return function(scope: Fusion.Scope<any>)
         local Hovering = scope:Value(false)
 	    local MousePos = scope:Value(Vector2.new(0, 0))
 
-        local color = Theme:GetTheme(props.theme or "Button")
+        local theme
+        if props.Primary then
+            theme = "Primary"
+        else
+            theme = "SecondaryButton"
+        end
+
+        local color = Theme:GetTheme(theme)
 
         local FinalColor = scope:Computed(function(use)
             local color = use(color)
@@ -89,16 +96,6 @@ return function(scope: Fusion.Scope<any>)
                 Corner {},
             }
         }
-
-        if props.Background == true or props.Background == nil then
-            scope:Hydrate(button) {
-                [Children] = {
-                    Stroke {
-                        Color = "ButtonOutline"
-                    },
-                }
-            }
-        end
 
         local highlight = scope:New "ImageLabel" {
             Parent = button,
