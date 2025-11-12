@@ -10,6 +10,7 @@ local controls = {
     Text = "Button",
     Icon = "http://www.roblox.com/asset/?id=8517323790",
     UsesIcon = true,
+    hue = 0,
 }
 
 local story = {
@@ -17,6 +18,8 @@ local story = {
     controls = controls,
 
     story = function(props)
+
+        InnerComponents.SetAcent(props.controls.hue)
 
         local FinalIcon = props.scope:Computed(function(use)
             local icon = use(props.controls.Icon)
@@ -33,7 +36,8 @@ local story = {
             parent = props.target,
             Text = props.controls.Text,
             Size = UDim2.new(0, 100, 0, 30),
-            IconID = FinalIcon
+            IconID = FinalIcon,
+            Primary = true,
         }
     end
 }

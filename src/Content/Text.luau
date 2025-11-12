@@ -18,7 +18,8 @@ return function(scope: Fusion.Scope<any>)
         YAlign: Enum.TextYAlignment?,
         Children: {Instance}?,
         AutomaticSize: Enum.AutomaticSize?,
-        LayoutOrder: number?
+        LayoutOrder: number?,
+        Wraps: boolean?
     })
         local scope = scope:innerScope()
 
@@ -31,6 +32,7 @@ return function(scope: Fusion.Scope<any>)
             TextXAlignment = props.XAlign or Enum.TextXAlignment.Left,
             TextYAlignment = props.YAlign or Enum.TextYAlignment.Center,
             AutomaticSize = props.AutomaticSize,
+            TextWrapped = props.Wraps or false,
             BackgroundTransparency = 1,
             LayoutOrder = props.LayoutOrder,
             [Children] = props.Children,

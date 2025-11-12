@@ -11,6 +11,7 @@ local components = {
         BaseButton = require(Interaction.BaseButton),
         TextButton = require(Interaction.TextButton),
         IconButton = require(Interaction.IconButton),
+        TextBox = require(Interaction.TextBox),
     },
 
     Layout = {

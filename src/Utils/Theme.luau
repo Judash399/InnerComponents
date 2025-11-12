@@ -15,11 +15,14 @@ local function SetTheme(ThemeColors)
 end
 
 function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
-    local AccentHue = Fusion.peek(Accent)
-
     --TODO: This does need to have a light theme.
 
-    local colors = {
+    local observer = Scope:Observer(Accent)
+
+    observer:onBind(function()
+        local AccentHue = Fusion.peek(Accent)
+
+        local colors = {
         Primary = OklabConverter.OklchToRGB({L = .75, C = .12, H = AccentHue}),
         Success = Color3.fromRGB(39, 201, 101),
         Error = Color3.fromRGB(224, 85, 85),
@@ -37,15 +40,17 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
         PrimaryButtonPress = OklabConverter.OklchToRGB({L = .36, C = .06, H = AccentHue}),
         PrimaryButtonGlow = Color3.new(1, 1, 1),
         PrimaryContent = Color3.new(1, 1, 1),
-
-        SecondaryButton = Color3.fromRGB(150, 150, 150),
-        SecondaryButtonHighlight = OklabConverter.OklchToRGB({L = .77, C = .04, H = AccentHue}),
+        
+        
+        SecondaryButton = Color3.fromRGB(37, 37, 37),
+        SecondaryButtonHighlight = Color3.fromRGB(45, 45, 45),
         SecondaryButtonPress = OklabConverter.OklchToRGB({L = .5, C = .06, H = AccentHue}),
-        SecondaryButtonGlow = Color3.new(1, 1, 1),
-        SecondaryContent = Color3.new(0, 0, 0),
+        SecondaryButtonGlow = Color3.new(0.486274, 0.486274, 0.486274),
+        SecondaryContent = Color3.new(1, 1, 1),
     }
 
     SetTheme(colors)
+    end)
 end
 
 function Theme:GetTheme(ThemeColor: ThemeColor)

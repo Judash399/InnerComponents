@@ -11,22 +11,30 @@ type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
-        theme: Theme.ThemeColor?,
+        Primary: boolean?,
         parent: Instance?,
         Size: UsedAs<UDim2>?,
         Text: UsedAs<string>?,
         Pressed: () -> (),
-        TextTheme: Theme.ThemeColor?,
         Icon: string,
+        Enabled: UsedAs<boolean>?
     })
         local scope = scope:innerScope()
 
         local button = Button(scope) {
-            theme = props.theme,
+            Primary = props.Primary,
             parent = props.parent,
             Size = props.Size,
             Pressed = props.Pressed,
+            Enabled = props.Enabled,
         }
+
+        local textTheme
+        if props.Primary == true then
+            textTheme = "PrimaryContent"
+        else
+            textTheme = "SecondaryContent"
+        end
 
         local content = scope:New "Frame" {
             BackgroundTransparency = 1,
@@ -43,7 +51,7 @@ return function(scope: Fusion.Scope<any>)
                     AutomaticSize = Enum.AutomaticSize.X,
                     TextSize = 17,
                     Text = props.Text,
-                    TextTheme = props.TextTheme or "ButtonText",
+                    TextTheme = textTheme,
                     XAlign = Enum.TextXAlignment.Center
                 },
                 --[[

@@ -13,22 +13,46 @@ return function(scope: Fusion.Scope<any>)
         parent: Instance?,
         Size: UsedAs<UDim2>?,
         Pressed: () -> (),
-        Background: boolean?
+        Background: boolean?,
+        Enabled: UsedAs<boolean>?,
     })
         local scope = scope:innerScope()
 
-        local Stroke = require(Root.Primitives.Stroke)(scope)
         local Corner = require(Root.Primitives.Corner)(scope)
 
 
         local Hovering = scope:Value(false)
 	    local MousePos = scope:Value(Vector2.new(0, 0))
 
+        local Enabled = props.Enabled or true
+
+        local DimSpring = scope:Spring(scope:Computed(function(use)
+            if use(Enabled) == true then
+                return 1
+            else
+                return .5
+            end
+        end), 25, 1)
+
         local theme
         if props.Primary then
             theme = "Primary"
         else
             theme = "SecondaryButton"
+        end
+
+        local hoverTheme
+        if props.Primary then
+            hoverTheme = "PrimaryButtonHighlight"
+        else
+            hoverTheme = "SecondaryButtonHighlight"
+        end
+
+        local highlightTheme
+        if props.Primary then
+            highlightTheme = "PrimaryButtonGlow"
+        else
+            highlightTheme = "SecondaryButtonGlow"
         end
 
         local color = Theme:GetTheme(theme)
@@ -40,12 +64,14 @@ return function(scope: Fusion.Scope<any>)
                 return Color3.new(1, 1, 1)
             end
 
-            if use(Hovering) then
-                return Color3.new(color.R + .04, color.G + .04, color.B + 0.04)
+            if use(Hovering) and use(Enabled) then
+                return peek(Theme:GetTheme(hoverTheme))
             else
                 return color
             end
         end)
+
+        local Frame = require(Root.Layout.Frame)(scope)
 
         local canvasGroup = scope:New "CanvasGroup" {
             Size = props.Size or UDim2.new(0, 200, 0, 50),
@@ -59,12 +85,22 @@ return function(scope: Fusion.Scope<any>)
             }
         }
 
+        local frame = Frame {
+            Blank = true,
+            Transparency = DimSpring,
+            Parent = canvasGroup,
+            ZIndex = 99999,
+            Color = Color3.new(0, 0, 0),
+            Size = UDim2.new(1, 0, 1, 0)
+        }
+
         local button = scope:New "TextButton" {
             Parent = canvasGroup,
             Name = "Button",
             Size = props.Size or UDim2.new(0, 200, 0, 50),
             BackgroundColor3 = FinalColor,
             ClipsDescendants = true,
+            Active = Enabled,
 
             [OnEvent "MouseEnter"] = function()
 			    Hovering:set(true)
@@ -77,7 +113,13 @@ return function(scope: Fusion.Scope<any>)
                 MousePos:set(Vector2.new(x, y))
             end,
 
-            [OnEvent "Activated"] = props.Pressed,
+            [OnEvent "Activated"] = function()
+                if peek(Enabled) then
+                    if props.Pressed then
+                       props.Pressed() 
+                    end
+                end
+            end,
 
             BackgroundTransparency = scope:Computed(function(use)
                 local hover = use(Hovering)
@@ -103,9 +145,16 @@ return function(scope: Fusion.Scope<any>)
             BackgroundTransparency = 1,
             ZIndex = -1,
             AnchorPoint = Vector2.new(.5, .5),
+            ImageColor3 = Theme:GetTheme(highlightTheme),
             Image = "http://www.roblox.com/asset/?id=5538771868",
             ImageTransparency = scope:Computed(function(use)
-                if use(Hovering) == true then
+                local Hovering = use(Hovering)
+
+                if use(Enabled) == false then
+                    return 1
+                end
+
+                if Hovering == true then
                     return .85
                 else
                     return 1
