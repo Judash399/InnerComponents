@@ -1,4 +1,3 @@
-local TextService = game:GetService("TextService")
 local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)

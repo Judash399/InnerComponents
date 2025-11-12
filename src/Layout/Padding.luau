@@ -9,12 +9,13 @@ type UsedAs<T> = Fusion.UsedAs<T>
 return function(scope: Fusion.Scope<any>)
     return function(props: {
         Parent: Instance?,
+        Amount: UDim?,
         LeftAmount: UDim?,
         RightAmount: UDim?,
         TopAmount: UDim?,
         BottomAmount: UDim?,
     })
-        local PaddingAmount = UDim.new(0, 5)
+        local PaddingAmount = props.Amount or UDim.new(0, 5)
         local scope = scope:innerScope()
         
         return scope:New "UIPadding" {
