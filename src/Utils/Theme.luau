@@ -35,6 +35,8 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
         MainText = Color3.new(.95, .95, .95),
         TextSecondary = Color3.new(.5, .5, .5),
 
+        SwitchShade = Color3.new(0.35, 0.35, 0.35),
+
         --Buttons
         PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = .8, C = .1, H = AccentHue}),
         PrimaryButtonPress = OklabConverter.OklchToRGB({L = .36, C = .06, H = AccentHue}),
