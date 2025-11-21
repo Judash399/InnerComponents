@@ -39,14 +39,14 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
 
         --Buttons
         PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = .8, C = .1, H = AccentHue}),
-        PrimaryButtonPress = OklabConverter.OklchToRGB({L = .36, C = .06, H = AccentHue}),
+        PrimaryButtonPress = OklabConverter.OklchToRGB({L = .65, C = .1, H = AccentHue}),
         PrimaryButtonGlow = Color3.new(1, 1, 1),
         PrimaryContent = Color3.new(1, 1, 1),
         
         
         SecondaryButton = Color3.fromRGB(37, 37, 37),
         SecondaryButtonHighlight = Color3.fromRGB(45, 45, 45),
-        SecondaryButtonPress = OklabConverter.OklchToRGB({L = .5, C = .06, H = AccentHue}),
+        SecondaryButtonPress = Color3.fromRGB(78, 78, 78),
         SecondaryButtonGlow = Color3.new(0.486274, 0.486274, 0.486274),
         SecondaryContent = Color3.new(1, 1, 1),
     }

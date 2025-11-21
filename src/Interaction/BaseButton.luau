@@ -22,6 +22,7 @@ return function(scope: Fusion.Scope<any>)
 
 
         local Hovering = scope:Value(false)
+        local Pressed = scope:Value(false)
 	    local MousePos = scope:Value(Vector2.new(0, 0))
 
         local Enabled = props.Enabled or true
@@ -48,6 +49,13 @@ return function(scope: Fusion.Scope<any>)
             hoverTheme = "SecondaryButtonHighlight"
         end
 
+        local pressedTheme
+        if props.Primary then
+            pressedTheme = "PrimaryButtonPress"
+        else
+            pressedTheme = "SecondaryButtonPress"
+        end
+
         local highlightTheme
         if props.Primary then
             highlightTheme = "PrimaryButtonGlow"
@@ -57,19 +65,26 @@ return function(scope: Fusion.Scope<any>)
 
         local color = Theme:GetTheme(theme)
 
-        local FinalColor = scope:Computed(function(use)
+        local FinalColor = scope:Spring(scope:Computed(function(use)
             local color = use(color)
+
+            local Pressed = use(Pressed)
             
-            if props.Background == false then
+            if use(props.Background) == false then
                 return Color3.new(1, 1, 1)
             end
+
+
+            if Pressed then
+                return peek(Theme:GetTheme(pressedTheme))
+            end            
 
             if use(Hovering) and use(Enabled) then
                 return peek(Theme:GetTheme(hoverTheme))
             else
                 return color
             end
-        end)
+        end), 50, 1)
 
         local Frame = require(Root.Layout.Frame)(scope)
 
@@ -107,6 +122,7 @@ return function(scope: Fusion.Scope<any>)
 		    end,
             [OnEvent "MouseLeave"] = function()
                 Hovering:set(false)
+                Pressed:set(false)
             end,
             
             [OnEvent "MouseMoved"] = function(x, y)
@@ -119,6 +135,14 @@ return function(scope: Fusion.Scope<any>)
                        props.Pressed() 
                     end
                 end
+            end,
+
+            [OnEvent "MouseButton1Down"] = function()
+                Pressed:set(true)
+            end,
+
+            [OnEvent "MouseButton1Up"] = function()
+                Pressed:set(false)
             end,
 
             BackgroundTransparency = scope:Computed(function(use)
@@ -149,12 +173,14 @@ return function(scope: Fusion.Scope<any>)
             Image = "http://www.roblox.com/asset/?id=5538771868",
             ImageTransparency = scope:Computed(function(use)
                 local Hovering = use(Hovering)
+                local Pressed = use(Pressed)
+                local Primary = use(props.Primary)
 
                 if use(Enabled) == false then
                     return 1
                 end
 
-                if Hovering == true then
+                if Hovering == true and Pressed == false and Primary == false then
                     return .85
                 else
                     return 1
