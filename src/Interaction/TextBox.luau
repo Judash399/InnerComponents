@@ -13,6 +13,7 @@ return function(scope: Fusion.Scope<any>)
         Size: UDim2?,
         PlaceholderText: UsedAs<string>?,
         Text: string?,
+        Fill: boolean?,
         OnChange: (string) -> (),
     })
         local scope = scope:innerScope()
@@ -50,7 +51,7 @@ return function(scope: Fusion.Scope<any>)
             end
         end), 25, 1)
 
-        return scope:New "TextBox" {
+        local textBox = scope:New "TextBox" {
             Parent = props.Parent,
             Size = props.Size or UDim2.new(0, 200, 0, 30),
             TextXAlignment = Enum.TextXAlignment.Left,
@@ -84,8 +85,17 @@ return function(scope: Fusion.Scope<any>)
                     Color = "Primary",
                     Thickness = thickness,
                     Transparency = transparency
-                }
+                },
             }
         }
+
+        if props.Fill then
+            scope:New "UIFlexItem" {
+                  Parent = textBox,
+                  FlexMode = Enum.UIFlexMode.Fill  
+            }
+        end
+        
+        return textBox
     end
 end

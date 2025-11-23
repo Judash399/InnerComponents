@@ -17,7 +17,8 @@ local components = {
 
     Layout = {
         Frame = require(Layout.Frame),
-        Padding = require(Layout.Padding)
+        Padding = require(Layout.Padding),
+        Scroller = require(Layout.Scroller)
     },
 
     Content = {

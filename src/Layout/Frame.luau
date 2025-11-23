@@ -15,7 +15,6 @@ return function(scope: Fusion.Scope<any>)
         Blank: boolean?,
         Transparency: UsedAs<number>?,
         Parent: Instance?,
-        Color: Color3?,
         ZIndex: number?,
     })
         local Level = props.Level or 1
@@ -33,7 +32,6 @@ return function(scope: Fusion.Scope<any>)
                 BackgroundTransparency = props.Transparency or 1,
                 [Children] = props.Children,
                 Parent = props.Parent,
-                BackgroundColor3 = props.Color,
                 ZIndex = props.ZIndex
             }
         end

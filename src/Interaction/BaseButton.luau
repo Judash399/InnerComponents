@@ -71,7 +71,7 @@ return function(scope: Fusion.Scope<any>)
             local Pressed = use(Pressed)
             
             if use(props.Background) == false then
-                return Color3.new(1, 1, 1)
+                return peek(Theme:GetTheme("SecondaryButtonHighlight"))
             end
 
 
@@ -147,6 +147,11 @@ return function(scope: Fusion.Scope<any>)
 
             BackgroundTransparency = scope:Computed(function(use)
                 local hover = use(Hovering)
+
+                if props.Background == false and hover then
+                    return 0
+                end
+
                 if props.Background == true or props.Background == nil then
                     return 0
                 else

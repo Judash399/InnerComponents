@@ -7,7 +7,7 @@ return function(scope: Fusion.Scope<any>)
     })
         local Level = props.Level or 1
         return scope:New "UICorner" {
-            CornerRadius = UDim.new(0, 10 * Level)
+            CornerRadius = UDim.new(0, 6 * Level)
         }
     end
 end
