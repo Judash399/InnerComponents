@@ -18,6 +18,7 @@ return function(scope: Fusion.Scope<any>)
 
         local IconButton = require(Root.Interaction.IconButton)(scope)
         local Frame = require(Root.Layout.Frame)(scope)
+        local Corner = require(Root.Primitives.Corner)(scope)
 
         local AbsoluteSize = scope:Value(Vector2.new(100, 100))
         local VisibleSize = scope:Value(Vector2.new(100, 100))
@@ -124,7 +125,13 @@ return function(scope: Fusion.Scope<any>)
 
                                         return UDim2.new(.5, 0, centerPos, 0)
                                     end),
-                                    BackgroundColor3 = Theme:GetTheme("MainText")
+                                    BackgroundColor3 = Theme:GetTheme("MainText"),
+
+                                    [Children] = {
+                                        Corner {
+
+                                        }
+                                    }
                                 }
                             }
                         },
