@@ -13,8 +13,13 @@ return function(scope: Fusion.Scope<any>)
         parent: Instance?,
         Size: UsedAs<UDim2>?,
         Pressed: () -> (),
+        MouseEnter: () -> (),
+        MouseLeave: () -> (),
+        MouseHolding: UsedAs<boolean>?,
         Background: boolean?,
         Enabled: UsedAs<boolean>?,
+        Children: {Instance}?,
+        CanvasGroupChildren: {Instance}?
     })
         local scope = scope:innerScope()
 
@@ -24,6 +29,8 @@ return function(scope: Fusion.Scope<any>)
         local Hovering = scope:Value(false)
         local Pressed = scope:Value(false)
 	    local MousePos = scope:Value(Vector2.new(0, 0))
+
+        local MouseHolding = props.MouseHolding or scope:Value(false)
 
         local Enabled = props.Enabled or true
 
@@ -97,6 +104,7 @@ return function(scope: Fusion.Scope<any>)
                 Corner {
                     Level = 1,
                 },
+                props.CanvasGroupChildren
             }
         }
 
@@ -119,14 +127,21 @@ return function(scope: Fusion.Scope<any>)
 
             [OnEvent "MouseEnter"] = function()
 			    Hovering:set(true)
+                if props.MouseEnter then
+                   props.MouseEnter() 
+                end
 		    end,
             [OnEvent "MouseLeave"] = function()
                 Hovering:set(false)
                 Pressed:set(false)
+                if props.MouseLeave then
+                   props.MouseLeave() 
+                end
             end,
             
             [OnEvent "MouseMoved"] = function(x, y)
                 MousePos:set(Vector2.new(x, y))
+
             end,
 
             [OnEvent "Activated"] = function()
@@ -139,10 +154,12 @@ return function(scope: Fusion.Scope<any>)
 
             [OnEvent "MouseButton1Down"] = function()
                 Pressed:set(true)
+                MouseHolding:set(true)
             end,
 
             [OnEvent "MouseButton1Up"] = function()
                 Pressed:set(false)
+                MouseHolding:set(false)
             end,
 
             BackgroundTransparency = scope:Computed(function(use)
@@ -165,6 +182,7 @@ return function(scope: Fusion.Scope<any>)
 
             [Children] = {
                 Corner {},
+                props.Children
             }
         }
 

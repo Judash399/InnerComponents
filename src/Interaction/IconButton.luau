@@ -19,20 +19,18 @@ return function(scope: Fusion.Scope<any>)
         IconPadding: number?
     })
         local scope = scope:innerScope()
-        local button = Button(scope) {
+        
+        return Button(scope) {
             theme = props.theme,
             parent = props.parent,
             Size = props.Size or UDim2.new(0, 30, 0, 30),
             Pressed = props.Pressed,
             Background = props.Background,
-        }
 
-        ImageIcon(scope) {
-            IconName = props.IconName,
-            Parent = button,
-            Size = UDim2.new(1, (props.IconPadding or 5) * -1, 1, (props.IconPadding or 5) * -1)
+            Children = ImageIcon(scope) {
+                IconName = props.IconName,
+                Size = UDim2.new(1, (props.IconPadding or 5) * -1, 1, (props.IconPadding or 5) * -1)
+            }
         }
-
-        return button
     end
 end

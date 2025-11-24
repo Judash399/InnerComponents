@@ -1,4 +1,5 @@
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
@@ -17,11 +18,14 @@ return function(scope: Fusion.Scope<any>)
         local canvasPosition = scope:Value(Vector2.new(0, 0))
 
         local IconButton = require(Root.Interaction.IconButton)(scope)
+        local BaseButton = require(Root.Interaction.BaseButton)(scope)
         local Frame = require(Root.Layout.Frame)(scope)
         local Corner = require(Root.Primitives.Corner)(scope)
 
         local AbsoluteSize = scope:Value(Vector2.new(100, 100))
         local VisibleSize = scope:Value(Vector2.new(100, 100))
+
+        local MouseHold = scope:Value(false)
 
         return scope:New "Frame" {
             Name = "Scroller",
@@ -101,15 +105,20 @@ return function(scope: Fusion.Scope<any>)
                             end
                         },
 
-                        Frame {
+                        BaseButton {
                             Size = UDim2.new(1, 0, 1, 0),
                             
-                            Children = {
+                            CanvasGroupChildren = {
                                 scope:New "UIFlexItem" {
                                     FlexMode = Enum.UIFlexMode.Fill
                                 },
+                            },
 
+                            MouseHolding = MouseHold,
+                            
+                            Children = {
                                 scope:New "Frame" {
+                                    Name = "Thumb",
                                     AnchorPoint = Vector2.new(0.5, 0.5),
                                     Size = scope:Computed(function(use)
                                         return UDim2.new(1, 0, use(VisibleSize).Y / use(AbsoluteSize).Y, 0)
