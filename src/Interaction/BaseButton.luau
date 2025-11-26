@@ -15,11 +15,13 @@ return function(scope: Fusion.Scope<any>)
         Pressed: () -> (),
         MouseEnter: () -> (),
         MouseLeave: () -> (),
+        MousePosition: Fusion.Value<any, Vector2>?,
         MouseHolding: UsedAs<boolean>?,
         Background: boolean?,
         Enabled: UsedAs<boolean>?,
         Children: {Instance}?,
-        CanvasGroupChildren: {Instance}?
+        CanvasGroupChildren: {Instance}?,
+        AbsSizeReturn: Fusion.Value<any, Vector2>?
     })
         local scope = scope:innerScope()
 
@@ -28,7 +30,7 @@ return function(scope: Fusion.Scope<any>)
 
         local Hovering = scope:Value(false)
         local Pressed = scope:Value(false)
-	    local MousePos = scope:Value(Vector2.new(0, 0))
+	    local MousePos = props.MousePosition or scope:Value(Vector2.new(0, 0))
 
         local MouseHolding = props.MouseHolding or scope:Value(false)
 
@@ -105,15 +107,14 @@ return function(scope: Fusion.Scope<any>)
                     Level = 1,
                 },
                 props.CanvasGroupChildren
-            }
+            },
         }
 
-        local frame = Frame {
-            Blank = true,
+        local frame = scope:New "Frame" {
             Transparency = DimSpring,
             Parent = canvasGroup,
             ZIndex = 99999,
-            Color = Color3.new(0, 0, 0),
+            BackgroundColor3 = Color3.new(0, 0, 0),
             Size = UDim2.new(1, 0, 1, 0)
         }
 
@@ -161,6 +162,8 @@ return function(scope: Fusion.Scope<any>)
                 Pressed:set(false)
                 MouseHolding:set(false)
             end,
+
+            [Out "AbsoluteSize"] = props.AbsSizeReturn,
 
             BackgroundTransparency = scope:Computed(function(use)
                 local hover = use(Hovering)
