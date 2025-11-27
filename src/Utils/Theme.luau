@@ -4,11 +4,15 @@ local OklabConverter = require(script.Parent.OklabConverter)
 --Types
 export type ThemeColor = "Main" | "ButtonText"
 
+--Refrences
+local Studio = settings().Studio:: Studio
+
 local Theme = {}
 
 local Scope = Fusion.scoped(Fusion)
 
 local CurrentTheme = Scope:Value()
+local light
 
 local function SetTheme(ThemeColors)
     CurrentTheme:set(ThemeColors)
@@ -19,40 +23,59 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
 
     local observer = Scope:Observer(Accent)
 
-    observer:onBind(function()
-        local AccentHue = Fusion.peek(Accent)
-
-        local colors = {
-        Primary = OklabConverter.OklchToRGB({L = .75, C = .12, H = AccentHue}),
-        Success = Color3.fromRGB(39, 201, 101),
-        Error = Color3.fromRGB(224, 85, 85),
-        Warning = Color3.fromRGB(231, 203, 76),
-
-        Background = Color3.fromRGB(15, 15, 21),
-        CardBackground = Color3.fromRGB(21, 21, 27),
-        InnerCardBackground = Color3.fromRGB(30, 30, 36), --Basicly so you can have cards inside cards.
-
-        MainText = Color3.new(.95, .95, .95),
-        TextSecondary = Color3.new(.5, .5, .5),
-
-        SwitchShade = Color3.new(0.35, 0.35, 0.35),
-
-        --Buttons
-        PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = .8, C = .1, H = AccentHue}),
-        PrimaryButtonPress = OklabConverter.OklchToRGB({L = .65, C = .1, H = AccentHue}),
-        PrimaryButtonGlow = Color3.new(1, 1, 1),
-        PrimaryContent = Color3.new(1, 1, 1),
-        
-        
-        SecondaryButton = Color3.fromRGB(37, 37, 37),
-        SecondaryButtonHighlight = Color3.fromRGB(45, 45, 45),
-        SecondaryButtonPress = Color3.fromRGB(78, 78, 78),
-        SecondaryButtonGlow = Color3.new(0.486274, 0.486274, 0.486274),
-        SecondaryContent = Color3.new(1, 1, 1),
-    }
-
-    SetTheme(colors)
+    local theme = Scope:Value(Studio.Theme)
+    Studio.ThemeChanged:Connect(function()
+        theme:set(Studio.Theme)
     end)
+
+    light = Scope:Computed(function(use)
+        local theme: StudioTheme = use(theme)
+
+        local backgroundColor = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground)
+
+        local light = (backgroundColor.R + backgroundColor.G + backgroundColor.B) / 3 > .5
+    end)
+
+    CurrentTheme = Scope:Computed(function(use)
+        local AccentHue = use(Accent)
+        local theme: StudioTheme = use(theme)
+
+        
+        local colors = {
+            Primary = OklabConverter.OklchToRGB({ L = if light then .7 else .75, C = .12, H = AccentHue}),
+            Success = theme:GetColor(Enum.StudioStyleGuideColor.InfoText),
+            Error = theme:GetColor(Enum.StudioStyleGuideColor.ErrorText),
+            Warning = theme:GetColor(Enum.StudioStyleGuideColor.WarningText),
+
+            Background = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground),
+            CardBackground = theme:GetColor(Enum.StudioStyleGuideColor.Item),
+            InnerCardBackground = theme:GetColor(Enum.StudioStyleGuideColor.InputFieldBackground), --Basicly so you can have cards inside cards.
+
+            MainText = theme:GetColor(Enum.StudioStyleGuideColor.MainText),
+            TextSecondary = theme:GetColor(Enum.StudioStyleGuideColor.SubText),
+
+            SwitchShade = theme:GetColor(Enum.StudioStyleGuideColor.Dark),
+
+            --Buttons
+            PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = if light then .75 else .8, C = .1, H = AccentHue}),
+            PrimaryButtonPress = OklabConverter.OklchToRGB({L = if light then .6 else .65, C = .1, H = AccentHue}),
+            PrimaryButtonGlow = Color3.new(1, 1, 1),
+            PrimaryContent = Color3.new(1, 1, 1),
+            
+            
+            SecondaryButton = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Midlight),
+            SecondaryButtonHighlight = theme:GetColor(if light then Enum.StudioStyleGuideColor.Dark else Enum.StudioStyleGuideColor.Light),
+            SecondaryButtonPress = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Dark),
+            SecondaryButtonGlow = theme:GetColor(if light then Enum.StudioStyleGuideColor.Shadow else Enum.StudioStyleGuideColor.Light),
+            SecondaryContent = theme:GetColor(Enum.StudioStyleGuideColor.ButtonText),
+        }
+
+        return colors
+    end)
+end
+
+function Theme:IsLight()
+    return light
 end
 
 function Theme:GetTheme(ThemeColor: ThemeColor)

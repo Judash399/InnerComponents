@@ -37,10 +37,12 @@ return function(scope: Fusion.Scope<any>)
         local Enabled = props.Enabled or true
 
         local DimSpring = scope:Spring(scope:Computed(function(use)
+            local light = use(Theme:IsLight())
+
             if use(Enabled) == true then
                 return 1
             else
-                return .5
+                return if light then .7 else .5
             end
         end), 25, 1)
 
