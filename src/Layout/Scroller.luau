@@ -5,7 +5,7 @@ local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
-local Children, peek = Fusion.Children, Fusion.peek
+local Children, peek, OnEvent = Fusion.Children, Fusion.peek, Fusion.OnEvent
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
@@ -26,6 +26,28 @@ return function(scope: Fusion.Scope<any>)
         local VisibleSize = scope:Value(Vector2.new(100, 100))
 
         local MouseHold = scope:Value(false)
+
+        local MouseInside = scope:Value(false)
+
+        local buttonAnchorPoint = scope:Spring(scope:Computed(function(use)
+            local inside = use(MouseInside)
+
+            if inside then
+                return UDim2.new(0, 0, 0, 0)
+            else
+                return UDim2.new(1, 0, 0, 0)
+            end
+        end), 40, 1)
+
+        local buttonTrans = scope:Spring(scope:Computed(function(use)
+            local inside = use(MouseInside)
+
+            if inside then
+                return 0
+            else
+                return 1
+            end
+        end), 100, 1)
 
         return scope:New "Frame" {
             Name = "Scroller",
@@ -72,41 +94,67 @@ return function(scope: Fusion.Scope<any>)
                     BackgroundTransparency = 1,
                     ZIndex = 3,
 
+                    [OnEvent "MouseEnter"] = function()
+                        MouseInside:set(true)
+                    end,
+
+                    [OnEvent "MouseLeave"] = function()
+                        MouseInside:set(false)
+                    end,
+
                     [Children] = {
                         scope:New "UIListLayout" {
                             FillDirection = Enum.FillDirection.Vertical,
                             SortOrder = Enum.SortOrder.LayoutOrder,
                         },
 
-                        IconButton {
-                            IconName = "chevron-up",
-                            Background = false,
+                        scope:New "Frame" {
                             Size = UDim2.new(1, 0, 0, 25),
-                            IconPadding = 0,
+                            BackgroundTransparency = 1,
+                            ClipsDescendants = true,
 
-                            Pressed = function()
-                                local added = 0
-                                local startY = peek(canvasPosition).Y
-                                local targetStep = 80
-                                local connection
-                                connection = RunService.RenderStepped:Connect(function(delta)
-                                    added += delta * 500
-                                    local t = math.clamp(added / targetStep, 0, 1)
+                            [Children] = {
+                                scope:New "Frame" {
+                                    Size = UDim2.new(1, 0, 1, 0),
+                                    Position = buttonAnchorPoint,
+                                    BackgroundTransparency = 1,
 
-                                    -- Ease-in-out cubic
-                                    local ease = t < 0.5 and 4 * t^3 or 1 - (-2 * t + 2)^3 / 2
+                                    [Children] = {
+                                        IconButton {
+                                            IconName = "chevron-up",
+                                            Background = false,
+                                            Size = UDim2.new(1, 0, 0, 25),
+                                            IconPadding = 0,
+                                            IconTransparency = buttonTrans,
 
-                                    canvasPosition:set(Vector2.new(0, startY - targetStep * ease))
+                                            Pressed = function()
+                                                local added = 0
+                                                local startY = peek(canvasPosition).Y
+                                                local targetStep = 80
+                                                local connection
+                                                connection = RunService.RenderStepped:Connect(function(delta)
+                                                    added += delta * 500
+                                                    local t = math.clamp(added / targetStep, 0, 1)
 
-                                    if t >= 1 then
-                                        connection:Disconnect()
-                                    end
-                                end)
-                            end
+                                                    -- Ease-in-out cubic
+                                                    local ease = t < 0.5 and 4 * t^3 or 1 - (-2 * t + 2)^3 / 2
+
+                                                    canvasPosition:set(Vector2.new(0, startY - targetStep * ease))
+
+                                                    if t >= 1 then
+                                                        connection:Disconnect()
+                                                    end
+                                                end)
+                                            end
+                                        },
+                                    }
+                                }
+                            }
                         },
 
                         BaseButton {
                             Size = UDim2.new(1, 0, 1, 0),
+                            Background = false,
                             
                             CanvasGroupChildren = {
                                 scope:New "UIFlexItem" {
@@ -120,9 +168,24 @@ return function(scope: Fusion.Scope<any>)
                                 scope:New "Frame" {
                                     Name = "Thumb",
                                     AnchorPoint = Vector2.new(0.5, 0.5),
-                                    Size = scope:Computed(function(use)
-                                        return UDim2.new(1, 0, use(VisibleSize).Y / use(AbsoluteSize).Y, 0)
-                                    end),
+
+                                    Size = scope:Spring(scope:Computed(function(use)
+                                        local hovering = use(MouseInside)
+                                        local VisibleSize = use(VisibleSize)
+                                        local AbsoluteSize = use(AbsoluteSize)
+
+                                        local ratio = VisibleSize.Y / AbsoluteSize.Y
+
+                                        if ratio ~= ratio then
+                                           ratio = 0 
+                                        end
+
+                                        if hovering then
+                                           return UDim2.new(1, -5, ratio, 0) 
+                                        else
+                                            return UDim2.new(0, 5, ratio, 0) 
+                                        end
+                                    end), 75, 1),
                                     Position = scope:Computed(function(use)
                                         local maxScroll = use(AbsoluteSize).Y - use(VisibleSize).Y
                                         local thumbSize = use(VisibleSize).Y / use(AbsoluteSize).Y
@@ -134,7 +197,24 @@ return function(scope: Fusion.Scope<any>)
 
                                         return UDim2.new(.5, 0, centerPos, 0)
                                     end),
-                                    BackgroundColor3 = Theme:GetTheme("MainText"),
+                                    BackgroundColor3 = scope:Computed(function(use)
+                                        local light = use(Theme:IsLight())
+
+                                        if light == true then
+                                            return use(Theme:GetTheme("MainText"))
+                                        else   
+                                            return Color3.new(1, 1, 1)
+                                        end
+                                    end),
+                                    Transparency = scope:Spring(scope:Computed(function(use)
+                                        local hovering = use(MouseInside)
+
+                                        if hovering then
+                                            return 0
+                                        else
+                                            return .8
+                                        end
+                                    end), 100, 1),
 
                                     [Children] = {
                                         Corner {
@@ -145,32 +225,49 @@ return function(scope: Fusion.Scope<any>)
                             }
                         },
 
-                        IconButton {
-                            IconName = "chevron-down",
-                            Background = false,
+                        scope:New "Frame" {
                             Size = UDim2.new(1, 0, 0, 25),
-                            IconPadding = 0,
+                            BackgroundTransparency = 1,
+                            ClipsDescendants = true,
 
-                            Pressed = function()
-                                local added = 0
-                                local startY = peek(canvasPosition).Y
-                                local targetStep = 80
-                                local connection
-                                connection = RunService.RenderStepped:Connect(function(delta)
-                                    added += delta * 500
-                                    local t = math.clamp(added / targetStep, 0, 1)
+                            [Children] = {
+                                scope:New "Frame" {
+                                    Size = UDim2.new(1, 0, 1, 0),
+                                    Position = buttonAnchorPoint,
+                                    BackgroundTransparency = 1,
 
-                                    -- Ease-in-out cubic
-                                    local ease = t < 0.5 and 4 * t^3 or 1 - (-2 * t + 2)^3 / 2
+                                    [Children] = {
+                                        IconButton {
+                                            IconName = "chevron-down",
+                                            Background = false,
+                                            Size = UDim2.new(1, 0, 0, 25),
+                                            IconPadding = 0,
+                                            IconTransparency = buttonTrans,
 
-                                    canvasPosition:set(Vector2.new(0, startY + targetStep * ease))
 
-                                    if t >= 1 then
-                                        connection:Disconnect()
-                                    end
-                                end)
-                            end
+                                            Pressed = function()
+                                                local added = 0
+                                                local startY = peek(canvasPosition).Y
+                                                local targetStep = 80
+                                                local connection
+                                                connection = RunService.RenderStepped:Connect(function(delta)
+                                                    added += delta * 500
+                                                    local t = math.clamp(added / targetStep, 0, 1)
 
+                                                    -- Ease-in-out cubic
+                                                    local ease = t < 0.5 and 4 * t^3 or 1 - (-2 * t + 2)^3 / 2
+
+                                                    canvasPosition:set(Vector2.new(0, startY + targetStep * ease))
+
+                                                    if t >= 1 then
+                                                        connection:Disconnect()
+                                                    end
+                                                end)
+                                            end
+                                        },
+                                    }
+                                }
+                            }
                         },
                     }
                 },

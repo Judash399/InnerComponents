@@ -13,7 +13,8 @@ return function(scope: Fusion.Scope<any>)
         AnchorPoint: Vector2?,
         Position: UDim2?,
         Size: UDim2?,
-        Parent: Instance?
+        Parent: Instance?,
+        Transparency: Fusion.UsedAs<number>?
     })
 
         local IconInfo = Icon.GetIcon(props.IconName)
@@ -26,7 +27,7 @@ return function(scope: Fusion.Scope<any>)
             ImageRectSize = IconInfo.ImageRectSize,
             ImageRectOffset = IconInfo.ImageRectOffset,
             BackgroundTransparency = 1,
-            ImageTransparency = 0,
+            ImageTransparency = props.Transparency or 0,
             ImageColor3 = Theme:GetTheme(props.Theme or "MainText"),
             Parent = props.Parent,
             [Children] = {

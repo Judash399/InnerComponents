@@ -34,6 +34,8 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
         local backgroundColor = theme:GetColor(Enum.StudioStyleGuideColor.MainBackground)
 
         local light = (backgroundColor.R + backgroundColor.G + backgroundColor.B) / 3 > .5
+
+        return light
     end)
 
     CurrentTheme = Scope:Computed(function(use)

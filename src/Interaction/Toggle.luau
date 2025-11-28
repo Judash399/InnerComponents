@@ -83,7 +83,13 @@ return function(scope: Fusion.Scope<any>)
                             Position = position,
                             AnchorPoint = anchorPoint,
                             Size = size,
-                            BackgroundColor3 = Theme:GetTheme("Background"),
+                            BackgroundColor3 = scope:Computed(function(use)
+                                if use(Theme:IsLight()) then
+                                    return use(Theme:GetTheme("Background"))
+                                else
+                                    return Color3.new(1, 1, 1)
+                                end
+                            end),
 
                             [Children] = {
                                 Corner {Level = .67},

@@ -16,7 +16,8 @@ return function(scope: Fusion.Scope<any>)
         Pressed: () -> (),
         IconName: UsedAs<string>?,
         Background: boolean?,
-        IconPadding: number?
+        IconPadding: number?,
+        IconTransparency: UsedAs<number>?
     })
         local scope = scope:innerScope()
         
@@ -29,7 +30,8 @@ return function(scope: Fusion.Scope<any>)
 
             Children = ImageIcon(scope) {
                 IconName = props.IconName,
-                Size = UDim2.new(1, (props.IconPadding or 5) * -1, 1, (props.IconPadding or 5) * -1)
+                Size = UDim2.new(1, (props.IconPadding or 5) * -1, 1, (props.IconPadding or 5) * -1),
+                Transparency = props.IconTransparency,
             }
         }
     end
