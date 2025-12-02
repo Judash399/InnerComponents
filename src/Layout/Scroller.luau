@@ -11,7 +11,10 @@ return function(scope: Fusion.Scope<any>)
     return function(props: {
         Parent: Instance?,
         BackgroundColor: Fusion.UsedAs<Color3>?,
-        Children: {Instance}?
+        Children: {Instance}?,
+        Scaled: Fusion.UsedAs<boolean>?,
+        Flex: boolean?,
+        CanvasSize: Fusion.UsedAs<UDim2>?
     })
         local backgroundColor = props.BackgroundColor or Theme:GetTheme("CardBackground")
 
@@ -29,6 +32,19 @@ return function(scope: Fusion.Scope<any>)
 
         local MouseInside = scope:Value(false)
 
+        local barAbsSize = scope:Value(Vector2.new(100, 100))
+        local barMousePosition = scope:Value(Vector2.new(0, 0))
+
+        local scrollbarVisible = scope:Computed(function(use)
+            local abs = use(AbsoluteSize)
+            local vis = use(VisibleSize)
+            if abs.Y > vis.Y then
+                return true
+            else
+                return false
+            end
+        end)
+
         local buttonAnchorPoint = scope:Spring(scope:Computed(function(use)
             local inside = use(MouseInside)
 
@@ -37,17 +53,7 @@ return function(scope: Fusion.Scope<any>)
             else
                 return UDim2.new(1, 0, 0, 0)
             end
-        end), 40, 1)
-
-        local buttonTrans = scope:Spring(scope:Computed(function(use)
-            local inside = use(MouseInside)
-
-            if inside then
-                return 0
-            else
-                return 1
-            end
-        end), 100, 1)
+        end), 75, 1)
 
         return scope:New "Frame" {
             Name = "Scroller",
@@ -56,10 +62,27 @@ return function(scope: Fusion.Scope<any>)
             
             [Children] = {
 
+                --Flex thingy
+                scope:New "UIFlexItem" {
+                    FlexMode = scope:Computed(function(use)
+                        local flex = use(props.Flex)
+
+                        if flex == true then
+                            return Enum.UIFlexMode.Fill
+                        else
+                            return Enum.UIFlexMode.None
+                        end
+                    end)
+                },
+
                 --Top and bottom gradients
                 scope:New "Frame" {
                     BackgroundColor3 = backgroundColor,
-                    Size = UDim2.new(1, 0, 0, 10),
+                    Size = scope:Spring(scope:Computed(function(use)
+                        local visible = use(scrollbarVisible)
+
+                        return if visible then UDim2.new(1, 0, 0, 25) else UDim2.new(1, 0, 0, 10)
+                    end), 25, 1),
                     Name = "TopGradiant",
                     [Children] = {
                         scope:New "UIGradient" {
@@ -71,7 +94,11 @@ return function(scope: Fusion.Scope<any>)
                 },
                 scope:New "Frame" {
                     BackgroundColor3 = backgroundColor,
-                    Size = UDim2.new(1, 0, 0, 10),
+                    Size = scope:Spring(scope:Computed(function(use)
+                        local visible = use(scrollbarVisible)
+
+                        return if visible then UDim2.new(1, 0, 0, 25) else UDim2.new(1, 0, 0, 10)
+                    end), 25, 1),
                     Position = UDim2.new(0, 0, 1, 0),
                     AnchorPoint = Vector2.new(0, 1),
                     Name = "BottomGradiant",
@@ -93,6 +120,7 @@ return function(scope: Fusion.Scope<any>)
                     Position = UDim2.new(1, 0, 0, 0),
                     BackgroundTransparency = 1,
                     ZIndex = 3,
+                    Visible = scrollbarVisible,
 
                     [OnEvent "MouseEnter"] = function()
                         MouseInside:set(true)
@@ -125,7 +153,7 @@ return function(scope: Fusion.Scope<any>)
                                             Background = false,
                                             Size = UDim2.new(1, 0, 0, 25),
                                             IconPadding = 0,
-                                            IconTransparency = buttonTrans,
+                                            IconTransparency = 0,
 
                                             Pressed = function()
                                                 local added = 0
@@ -242,7 +270,7 @@ return function(scope: Fusion.Scope<any>)
                                             Background = false,
                                             Size = UDim2.new(1, 0, 0, 25),
                                             IconPadding = 0,
-                                            IconTransparency = buttonTrans,
+                                            IconTransparency = 0,
 
 
                                             Pressed = function()
@@ -276,13 +304,34 @@ return function(scope: Fusion.Scope<any>)
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundTransparency = 1,
                     ScrollBarThickness = 0,
+                    CanvasSize = props.CanvasSize or UDim2.new(0, 0, .9, 0),
+                    AutomaticCanvasSize = scope:Computed(function(use)
+                        local scaled = use(props.Scaled)
+
+                        if scaled then
+                            return Enum.AutomaticSize.Y
+                        else
+                            return Enum.AutomaticSize.None
+                        end
+                    end),
 
                     CanvasPosition = canvasPosition,
                     [Fusion.Out "CanvasPosition"] = canvasPosition,
                     [Fusion.Out "AbsoluteCanvasSize"] = AbsoluteSize,
                     [Fusion.Out "AbsoluteSize"] = VisibleSize,
 
-                    [Children] = props.Children
+                    [Children] = scope:New "Frame" {
+                        Size = UDim2.new(1, 0, 1, 0),
+                        BackgroundTransparency = 1,
+
+                        [Children] = {
+                            scope:New "UIPadding" {
+                                PaddingRight = UDim.new(0, 5),
+                                PaddingLeft = UDim.new(0, 5)
+                            },
+                            props.Children
+                        }
+                    }
                 }
             }
         }

@@ -1,8 +1,9 @@
 --!nocheck
 
 --Services
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Packages = script.Parent.Parent.Parent.Packages
+local Packages = ReplicatedStorage.Packages
 local Fusion = require(Packages.fusion)
 local InnerComponents = require(Packages.InnerComponents)
 
