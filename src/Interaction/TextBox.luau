@@ -22,12 +22,12 @@ return function(scope: Fusion.Scope<any>)
         local Corner = require(Root.Primitives.Corner)(scope)
         local Padding = require(Root.Layout.Padding)(scope)
 
-        local focused = scope:Value(false)
-        local hovering = scope:Value(false)
+        local Focused = scope:Value(false)
+        local Hovering = scope:Value(false)
 
         local thickness = scope:Spring(scope:Computed(function(use)
-            local focused = use(focused)
-            local hovering = use(hovering)
+            local focused = use(Focused)
+            local hovering = use(Hovering)
 
             if focused == true then
                 return 1.5 
@@ -39,8 +39,8 @@ return function(scope: Fusion.Scope<any>)
         end), 25, 1)
 
         local transparency = scope:Spring(scope:Computed(function(use)
-            local focused = use(focused)
-            local hovering = use(hovering)
+            local focused = use(Focused)
+            local hovering = use(Hovering)
 
             if focused == true then
                 return 0 
@@ -51,27 +51,27 @@ return function(scope: Fusion.Scope<any>)
             end
         end), 25, 1)
 
-        local textBox = scope:New "TextBox" {
+        local textbox = scope:New "TextBox" {
             Parent = props.Parent,
             Size = props.Size or UDim2.new(0, 200, 0, 30),
             TextXAlignment = Enum.TextXAlignment.Left,
             PlaceholderText = props.PlaceholderText,
-            BackgroundColor3 = Theme:GetTheme("InnerCardBackground"),
+            BackgroundColor3 = Theme:GetTheme(Enum.StudioStyleGuideColor.InputFieldBackground),
             TextColor3 = Theme:GetTheme("MainText"),
             ClipsDescendants = true,
             [OnEvent "Focused"] = function()
-                focused:set(true)
+                Focused:set(true)
             end,
             [OnEvent "FocusLost"] = function()
-                focused:set(false)
+                Focused:set(false)
             end,
 
             [OnEvent "MouseEnter"] = function()
-                hovering:set(true)
+                Hovering:set(true)
             end,
 
             [OnEvent "MouseLeave"] = function()
-                hovering:set(false)
+                Hovering:set(false)
             end,
             
             Text = props.Text,
@@ -91,11 +91,11 @@ return function(scope: Fusion.Scope<any>)
 
         if props.Fill then
             scope:New "UIFlexItem" {
-                  Parent = textBox,
-                  FlexMode = Enum.UIFlexMode.Fill  
+                  Parent = textbox,
+                  FlexMode = Enum.UIFlexMode.Fill,
             }
         end
         
-        return textBox
+        return textbox
     end
 end

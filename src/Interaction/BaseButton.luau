@@ -47,30 +47,18 @@ return function(scope: Fusion.Scope<any>)
         end), 25, 1)
 
         local theme
-        if props.Primary then
-            theme = "Primary"
-        else
-            theme = "SecondaryButton"
-        end
-
         local hoverTheme
-        if props.Primary then
-            hoverTheme = "PrimaryButtonHighlight"
-        else
-            hoverTheme = "SecondaryButtonHighlight"
-        end
-
         local pressedTheme
-        if props.Primary then
-            pressedTheme = "PrimaryButtonPress"
-        else
-            pressedTheme = "SecondaryButtonPress"
-        end
-
         local highlightTheme
         if props.Primary then
+            theme = "Primary"
+            hoverTheme = "PrimaryButtonHighlight"
+            pressedTheme = "PrimaryButtonPress"
             highlightTheme = "PrimaryButtonGlow"
         else
+            theme = "SecondaryButton"
+            hoverTheme = "SecondaryButtonHighlight"
+            pressedTheme = "SecondaryButtonPress"
             highlightTheme = "SecondaryButtonGlow"
         end
 

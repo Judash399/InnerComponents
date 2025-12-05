@@ -80,9 +80,14 @@ function Theme:IsLight()
     return light
 end
 
-function Theme:GetTheme(ThemeColor: ThemeColor)
+function Theme:GetTheme(ThemeColor: ThemeColor | Enum.StudioStyleGuideColor)
     return Fusion.Computed(Scope, function(use, scope)
-        return use(CurrentTheme)[ThemeColor]
+        local currentTheme = use(CurrentTheme)
+        if typeof(ThemeColor) == "EnumItem" then
+            return Studio.Theme:GetColor(ThemeColor)
+        else
+            return currentTheme[ThemeColor]
+        end
     end)
 end
 

@@ -225,24 +225,8 @@ return function(scope: Fusion.Scope<any>)
 
                                         return UDim2.new(.5, 0, centerPos, 0)
                                     end),
-                                    BackgroundColor3 = scope:Computed(function(use)
-                                        local light = use(Theme:IsLight())
-
-                                        if light == true then
-                                            return use(Theme:GetTheme("MainText"))
-                                        else   
-                                            return Color3.new(1, 1, 1)
-                                        end
-                                    end),
-                                    Transparency = scope:Spring(scope:Computed(function(use)
-                                        local hovering = use(MouseInside)
-
-                                        if hovering then
-                                            return 0
-                                        else
-                                            return .8
-                                        end
-                                    end), 100, 1),
+                                    BackgroundColor3 = Theme:GetTheme(Enum.StudioStyleGuideColor.ScrollBar),
+                                    Transparency = 0,
 
                                     [Children] = {
                                         Corner {
