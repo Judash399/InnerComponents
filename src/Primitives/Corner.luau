@@ -1,4 +1,6 @@
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 
 return function(scope: Fusion.Scope<any>)

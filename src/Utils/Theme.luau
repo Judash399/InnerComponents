@@ -1,11 +1,12 @@
+--Modules
 local Fusion = require(script.Parent.Parent.Parent.fusion)
 local OklabConverter = require(script.Parent.OklabConverter)
 
---Types
-export type ThemeColor = "Main" | "ButtonText"
-
 --Refrences
 local Studio = settings().Studio:: Studio
+
+--Types
+export type ThemeColor = "Main" | "ButtonText"
 
 local Theme = {}
 

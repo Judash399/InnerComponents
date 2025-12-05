@@ -1,20 +1,27 @@
+--Services
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+--Refrences
 local Children, peek, OnEvent = Fusion.Children, Fusion.peek, Fusion.OnEvent
+
+--Types
+type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
         Parent: Instance?,
-        BackgroundColor: Fusion.UsedAs<Color3>?,
+        BackgroundColor: UsedAs<Color3>?,
         Children: {Instance}?,
-        Scaled: Fusion.UsedAs<boolean>?,
+        Scaled: UsedAs<boolean>?,
         Flex: boolean?,
-        CanvasSize: Fusion.UsedAs<UDim2>?
+        CanvasSize: UsedAs<UDim2>?
     })
         local backgroundColor = props.BackgroundColor or Theme:GetTheme("CardBackground")
 

@@ -1,4 +1,4 @@
---local RawIcons = require(script.Parent.RawIcons)
+--Modules
 local Lucide = require(script.Parent.Parent.Parent["lucide-icons"])
 
 local module = {}

@@ -1,7 +1,10 @@
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+--Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)

@@ -1,11 +1,15 @@
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Button = require(Root.Interaction.BaseButton)
 local Theme = require(Root.Utils.Theme)
 local ImageIcon = require(Root.Content.ImageIcon)  
 
+--Refrences
 local Children, OnEvent, peek, Out = Fusion.Children, Fusion.OnEvent, Fusion.peek, Fusion.Out
 
+--Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)

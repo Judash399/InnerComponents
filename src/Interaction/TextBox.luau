@@ -1,7 +1,10 @@
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+--Refrences
 local Children, OnEvent, peek, Out, OnChange = Fusion.Children, Fusion.OnEvent, Fusion.peek, Fusion.Out, Fusion.OnChange
 
 

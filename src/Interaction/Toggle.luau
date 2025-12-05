@@ -1,11 +1,14 @@
-local TextService = game:GetService("TextService")
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
-type UsedAs<T> = Fusion.UsedAs<T>
-
+--Refrences
 local Children, OnEvent, peek, Out, OnChange = Fusion.Children, Fusion.OnEvent, Fusion.peek, Fusion.Out, Fusion.OnChange
+
+--Types
+type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
