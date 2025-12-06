@@ -9,7 +9,9 @@ local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
 --Refrences
-local Children, peek, OnEvent = Fusion.Children, Fusion.peek, Fusion.OnEvent
+local Children = Fusion.Children
+local peek = Fusion.peek
+local OnEvent = Fusion.OnEvent
 
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>
@@ -21,7 +23,9 @@ return function(scope: Fusion.Scope<any>)
         Children: {Instance}?,
         Scaled: UsedAs<boolean>?,
         Flex: boolean?,
-        CanvasSize: UsedAs<UDim2>?
+        CanvasSize: UsedAs<UDim2>?,
+        Size: UsedAs<UDim2>?,
+        Position: UsedAs<UDim2>?
     })
         local backgroundColor = props.BackgroundColor or Theme:GetTheme("CardBackground")
 
@@ -64,7 +68,8 @@ return function(scope: Fusion.Scope<any>)
 
         return scope:New "Frame" {
             Name = "Scroller",
-            Size = UDim2.new(1, 0, 1, 0),
+            Size = props.Size or UDim2.new(1, 0, 1, 0),
+            Position = props.Position,
             BackgroundTransparency = 1,
             
             [Children] = {

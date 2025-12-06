@@ -1,9 +1,15 @@
+
 --!nocheck
 
 --Services
-local Packages = script.Parent.Parent.Parent.Packages
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+--Modules
+local Packages = ReplicatedStorage.Packages
 local Fusion = require(Packages.fusion)
 local InnerComponents = require(Packages.InnerComponents)
+
+local Children = Fusion.Children
 
 local controls = {
     hue = 0,
@@ -36,7 +42,64 @@ local story = {
             end
         end)
 
-        --TODO: Make this
+        props.scope:New "Frame" {
+            Size = UDim2.new(1, 0, 1, 0),
+            Parent = props.target,
+
+            [Children] = {
+                InnerComponents.Plugin.VerticalView(props.scope) {
+                    TopbarChildren = {
+                        InnerComponents.Interaction.TextBox(props.scope) {
+                            PlaceholderText = "Search for a controller",
+                            Flex = true,
+                            Size = UDim2.new(0, 0, 1, 0)
+                        },
+
+                        IconButton {
+                            IconName = "settings",
+                            Size = UDim2.new(1, 0, 1, 0),
+                            AspectRatio = 1,
+                            Background = false,
+                        },
+                    },
+
+                    ContentChildren = {
+                        Frame {
+                            Size = UDim2.new(1, 0, 1, 0),
+                            Hidden = true,
+
+                            Children = {
+                                props.scope:New "UIListLayout" {
+                                    FillDirection = Enum.FillDirection.Vertical,
+                                    Padding = UDim.new(0, 5),
+                                    SortOrder = Enum.SortOrder.LayoutOrder,
+                                    HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                                    VerticalAlignment = Enum.VerticalAlignment.Center,
+                                },
+
+                                Text {
+                                    Text = "Oops!",
+                                    Size = UDim2.new(1, 0, 0, 30),
+                                    TextSize = 25,
+                                    Weight = Enum.FontWeight.Bold,
+                                    XAlign = Enum.TextXAlignment.Center
+                                },
+
+                                Text {
+                                    Text = "You seem to not have any controllers! Try creating one!",
+                                    Size = UDim2.new(1, 0, 0, 0),
+                                    AutomaticSize = Enum.AutomaticSize.Y,
+                                    Wraps = true,
+                                    XAlign = Enum.TextXAlignment.Center
+                                },
+                            }
+                        },
+                    }
+                }
+            }
+        }
+
+        --[[
         return Frame {
             Size = UDim2.new(0, 300, 0, 500),
             Level = 0,
@@ -128,6 +191,7 @@ local story = {
                 },
             }
         }
+        ]]
     end
 }
 

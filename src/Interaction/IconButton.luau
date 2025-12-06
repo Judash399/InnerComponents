@@ -6,9 +6,6 @@ local Button = require(Root.Interaction.BaseButton)
 local Theme = require(Root.Utils.Theme)
 local ImageIcon = require(Root.Content.ImageIcon)  
 
---Refrences
-local Children, OnEvent, peek, Out = Fusion.Children, Fusion.OnEvent, Fusion.peek, Fusion.Out
-
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
@@ -21,11 +18,12 @@ return function(scope: Fusion.Scope<any>)
         IconName: UsedAs<string>?,
         Background: boolean?,
         IconPadding: number?,
-        IconTransparency: UsedAs<number>?
+        IconTransparency: UsedAs<number>?,
+        AspectRatio: UsedAs<number>?,
     })
         local scope = scope:innerScope()
         
-        return Button(scope) {
+        local button = Button(scope) {
             theme = props.theme,
             parent = props.parent,
             Size = props.Size or UDim2.new(0, 30, 0, 30),
@@ -38,5 +36,14 @@ return function(scope: Fusion.Scope<any>)
                 Transparency = props.IconTransparency,
             }
         }
+
+        if props.AspectRatio then
+            scope:New "UIAspectRatioConstraint" {
+                AspectRatio = props.AspectRatio,
+                Parent = button
+            }
+        end
+
+        return button
     end
 end

@@ -24,9 +24,10 @@ local story = {
         InnerComponents.SetAcent(props.controls.hue)
 
         --TODO: Make this
-        return Frame {
+        Frame {
             Size = UDim2.new(0, 300, 0, 40),
             Level = 1.5,
+            Parent = props.target,
             Children = {
                 Padding {},
                 

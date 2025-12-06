@@ -5,7 +5,10 @@ local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
 --Refrences
-local Children, OnEvent, peek, Out = Fusion.Children, Fusion.OnEvent, Fusion.peek, Fusion.Out
+local Children = Fusion.Children
+local OnEvent = Fusion.OnEvent
+local peek = Fusion.peek
+local Out = Fusion.Out
 
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>

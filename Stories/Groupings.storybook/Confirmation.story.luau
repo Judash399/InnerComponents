@@ -37,11 +37,11 @@ local story = {
             end
         end)
 
-        --TODO: Make this
-        return Frame {
+        Frame {
             Size = UDim2.new(0, 300, 0, 0),
             Level = 1.5,
             AutoSize = Enum.AutomaticSize.Y,
+            Parent = props.target,
 
             Children = {
                 Padding {

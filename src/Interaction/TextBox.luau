@@ -5,9 +5,12 @@ local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
 --Refrences
-local Children, OnEvent, peek, Out, OnChange = Fusion.Children, Fusion.OnEvent, Fusion.peek, Fusion.Out, Fusion.OnChange
+local Children = Fusion.Children
+local OnEvent = Fusion.OnEvent
+local Out = Fusion.Out
+local OnChange = Fusion.OnChange
 
-
+--Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
@@ -16,7 +19,7 @@ return function(scope: Fusion.Scope<any>)
         Size: UDim2?,
         PlaceholderText: UsedAs<string>?,
         Text: string?,
-        Fill: boolean?,
+        Flex: boolean?,
         OnChange: (string) -> (),
     })
         local scope = scope:innerScope()
@@ -92,7 +95,7 @@ return function(scope: Fusion.Scope<any>)
             }
         }
 
-        if props.Fill then
+        if props.Flex then
             scope:New "UIFlexItem" {
                   Parent = textbox,
                   FlexMode = Enum.UIFlexMode.Fill,
