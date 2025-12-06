@@ -1,0 +1,21 @@
+.md-typeset h1 {
+    font-weight: bolder;
+    color: var(--h1);
+}
+
+.md-typeset h2 {
+    font-weight: bold;
+    color: var(--h2);
+}
+
+.md-typeset h3 {
+    font-weight: normal;
+    color: var(--h3);
+}
+
+/* Prevents MkDocs from filling the icons and styling them weird. */
+.mdc-icon, .md-icon, .md-icon svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}

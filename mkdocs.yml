@@ -1,0 +1,76 @@
+site_name: InnerComponents
+theme:
+  name: material
+  custom_dir: docs/assets/overrides
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: lucide/sun-moon
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: lucide/sun
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: lucide/moon
+        name: Switch to system preference
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.sections
+    - navigation.footer
+  font:
+    text: Roboto
+    code: "Fira Code"
+  icon:
+    menu: lucide/menu
+    alternate: lucide/languages
+    search: lucide/search
+    share: lucide/share-2
+    close: lucide/x
+    top: lucide/chevrons-up
+    edit: lucide/pensil
+    view: lucide/telescope
+    repo: lucide/github
+    admonition:
+      note: lucide/pencil
+      abstract: lucide/list-check
+      info: lucide/info
+      tip: lucide/flame
+      success: lucide/party-popper
+      question: lucide/message-circle-question-mark
+      warning: lucide/message-circle-warning
+      failure: lucide/ban
+      danger: lucide/skull
+      bug: lucide/bug
+      example: lucide/book
+      quote: lucide/message-square-quote
+    previous: lucide/move-left
+    next: lucide/move-right
+
+extra_css:
+  - assets/theme/content.css
+  - assets/theme/404.css
+  - assets/theme/main.css
+  - assets/theme/colors.css
+  - assets/theme/admonition.css
+  - assets/theme/button.css
+
+markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list

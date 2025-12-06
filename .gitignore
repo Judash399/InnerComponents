@@ -7,3 +7,6 @@
 
 # Ignore Packages folder
 /Packages
+
+# Ignore lucide icon pack
+/docs/assets/overrides/.icons/lucide
