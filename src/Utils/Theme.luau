@@ -8,6 +8,8 @@ local Studio = settings().Studio:: Studio
 --Types
 export type ThemeColor = "Main" | "ButtonText"
 
+export type Theme = ThemeColor | Enum.StudioStyleGuideColor
+
 local Theme = {}
 
 local Scope = Fusion.scoped(Fusion)

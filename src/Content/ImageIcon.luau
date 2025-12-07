@@ -1,10 +1,15 @@
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 local Icon = require(Root.Utils.Icon)  
 
+--Refrences
 local Children = Fusion.Children
 
+--Types
+type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
@@ -14,7 +19,7 @@ return function(scope: Fusion.Scope<any>)
         Position: UDim2?,
         Size: UDim2?,
         Parent: Instance?,
-        Transparency: Fusion.UsedAs<number>?
+        Transparency: UsedAs<number>?
     })
 
         local IconInfo = Icon.GetIcon(props.IconName)
