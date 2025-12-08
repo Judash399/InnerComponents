@@ -27,6 +27,8 @@ local components = {
     --Components that define the content of a UI.
     Content = {
         Text = require(Content.Text),
+        Pargraph = require(Content.Paragraph),
+        Header = require(Content.Header),
         ImageIcon = require(Content.ImageIcon),
     },
 
