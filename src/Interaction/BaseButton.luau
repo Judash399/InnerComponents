@@ -4,6 +4,8 @@ local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+local Glow = require(Root.Primitives.Glow)
+
 --Refrences
 local Children = Fusion.Children
 local OnEvent = Fusion.OnEvent
@@ -13,23 +15,34 @@ local Out = Fusion.Out
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
-return function(scope: Fusion.Scope<any>)
+return function(Scope: Fusion.Scope<any>)
     return function(props: {
-        Primary: boolean?,
-        parent: Instance?,
+        
+        --Important
+        Enabled: UsedAs<boolean>?,
+
+        --Layout
+        Parent: Instance?,
         Size: UsedAs<UDim2>?,
+
+        --Style
+        Primary: boolean?,
+        Background: boolean?,
+
+        Children: {Instance}?,
+        CanvasGroupChildren: {Instance}?,
+
+        --Callbacks
         Pressed: () -> (),
         MouseEnter: () -> (),
         MouseLeave: () -> (),
+
+        --Outputs
         MousePosition: Fusion.Value<any, Vector2>?,
-        MouseHolding: UsedAs<boolean>?,
-        Background: boolean?,
-        Enabled: UsedAs<boolean>?,
-        Children: {Instance}?,
-        CanvasGroupChildren: {Instance}?,
-        AbsSizeReturn: Fusion.Value<any, Vector2>?
+        AbsSizeReturn: Fusion.Value<any, Vector2>?,
+        MouseHolding: Fusion.Value<any, boolean>?,
     })
-        local scope = scope:innerScope()
+        local scope = Scope:innerScope()
 
         local Corner = require(Root.Primitives.Corner)(scope)
 
@@ -185,7 +198,14 @@ return function(scope: Fusion.Scope<any>)
             }
         }
 
-        local highlight = scope:New "ImageLabel" {
+        local highlight = Glow(scope) {
+            Parent = button,
+            
+        }
+        
+        --[[
+        
+        scope:New "ImageLabel" {
             Parent = button,
             Size = UDim2.new(0, 150, 0, 150),
             BackgroundTransparency = 1,
@@ -215,6 +235,8 @@ return function(scope: Fusion.Scope<any>)
                 return pos
             end)
         }
+
+        ]]
 
         return canvasGroup
     end
