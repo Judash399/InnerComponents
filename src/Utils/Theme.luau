@@ -71,7 +71,7 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
             SecondaryButton = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Midlight),
             SecondaryButtonHighlight = theme:GetColor(if light then Enum.StudioStyleGuideColor.Dark else Enum.StudioStyleGuideColor.Light),
             SecondaryButtonPress = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Dark),
-            SecondaryButtonGlow = theme:GetColor(if light then Enum.StudioStyleGuideColor.Shadow else Enum.StudioStyleGuideColor.Light),
+            SecondaryButtonGlow = if light then Color3.new(0, 0, 0) else Color3.new(1, 1, 1),
             SecondaryContent = theme:GetColor(Enum.StudioStyleGuideColor.ButtonText),
         }
 
