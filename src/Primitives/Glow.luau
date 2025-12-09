@@ -40,7 +40,7 @@ return function(Scope: Fusion.Scope<any>)
 
             --Inside a computed so it can adapt to color changes if the prop is changed.
             ImageColor3 = scope:Computed(function(use)
-                return Theme:GetTheme(use(props.Color))
+                return use(Theme:GetTheme(use(props.Color)))
             end), 
             Image = "http://www.roblox.com/asset/?id=5538771868", --TODO: Should probably at somepoint expose this value so the user can define there own glow image.
             
@@ -52,7 +52,7 @@ return function(Scope: Fusion.Scope<any>)
             Position = scope:Computed(function(use)
                 local position = use(props.Position)
 
-                return UDim2.new(0, position.X, 0, position.Y)
+                return position
             end)
         }
     end
