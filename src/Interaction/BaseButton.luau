@@ -4,6 +4,8 @@ local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+local Glow = require(Root.Primitives.Glow)
+
 --Refrences
 local Children = Fusion.Children
 local OnEvent = Fusion.OnEvent
@@ -13,34 +15,64 @@ local Out = Fusion.Out
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
-return function(scope: Fusion.Scope<any>)
+return function(Scope: Fusion.Scope<any>)
     return function(props: {
-        Primary: boolean?,
-        parent: Instance?,
+        
+        --Important
+        Enabled: UsedAs<boolean>?,
+
+        --Layout
+        Parent: Instance?,
         Size: UsedAs<UDim2>?,
+
+        --Style
+        Primary: boolean?,
+        Background: boolean?,
+
+        Children: {Instance}?,
+        CanvasGroupChildren: {Instance}?,
+
+        --Callbacks
         Pressed: () -> (),
         MouseEnter: () -> (),
         MouseLeave: () -> (),
+
+        --Outputs
         MousePosition: Fusion.Value<any, Vector2>?,
-        MouseHolding: UsedAs<boolean>?,
-        Background: boolean?,
-        Enabled: UsedAs<boolean>?,
-        Children: {Instance}?,
-        CanvasGroupChildren: {Instance}?,
-        AbsSizeReturn: Fusion.Value<any, Vector2>?
+        AbsSizeReturn: Fusion.Value<any, Vector2>?,
+        MouseHolding: Fusion.Value<any, boolean>?,
     })
-        local scope = scope:innerScope()
+        local scope = Scope:innerScope()
 
         local Corner = require(Root.Primitives.Corner)(scope)
 
 
         local Hovering = scope:Value(false)
         local Pressed = scope:Value(false)
+        local Enabled = props.Enabled or true
 	    local MousePos = props.MousePosition or scope:Value(Vector2.new(0, 0))
 
-        local MouseHolding = props.MouseHolding or scope:Value(false)
+        local HoverEffects = scope:Computed(function(use)
+            local hovering = use(Hovering)
+            local pressed = use(Pressed)
+            local enabled = use(Enabled)
 
-        local Enabled = props.Enabled or true
+            if enabled == false then
+                return false
+            end
+
+            if pressed == true then
+                return false
+            end
+
+            if hovering == true then
+                return true
+            end
+
+            return false
+        end)
+
+        local MouseHolding = props.MouseHolding or scope:Value(false)
 
         local DimSpring = scope:Spring(scope:Computed(function(use)
             local light = use(Theme:IsLight())
@@ -73,19 +105,22 @@ return function(scope: Fusion.Scope<any>)
         local FinalColor = scope:Spring(scope:Computed(function(use)
             local color = use(color)
 
-            local Pressed = use(Pressed)
-            
+            local hovering = use(HoverEffects)
+            local pressed = use(Pressed)
+
             if use(props.Background) == false then
                 return peek(Theme:GetTheme("SecondaryButtonHighlight"))
             end
 
+            if use(Enabled) == false then
+                return color
+            end
 
-            if Pressed then
-                return peek(Theme:GetTheme(pressedTheme))
-            end            
 
-            if use(Hovering) and use(Enabled) then
+            if hovering then
                 return peek(Theme:GetTheme(hoverTheme))
+            elseif pressed then
+                return peek(Theme:GetTheme(pressedTheme))
             else
                 return color
             end
@@ -162,7 +197,7 @@ return function(scope: Fusion.Scope<any>)
             [Out "AbsoluteSize"] = props.AbsSizeReturn,
 
             BackgroundTransparency = scope:Computed(function(use)
-                local hover = use(Hovering)
+                local hover = use(HoverEffects)
 
                 if props.Background == false and hover then
                     return 0
@@ -172,7 +207,7 @@ return function(scope: Fusion.Scope<any>)
                     return 0
                 else
                     if hover then
-                        return .97
+                        return .99
                     else 
                         return 1
                     end
@@ -185,35 +220,27 @@ return function(scope: Fusion.Scope<any>)
             }
         }
 
-        local highlight = scope:New "ImageLabel" {
+        local highlight = Glow(scope) {
             Parent = button,
-            Size = UDim2.new(0, 150, 0, 150),
-            BackgroundTransparency = 1,
-            ZIndex = -1,
-            AnchorPoint = Vector2.new(.5, .5),
-            ImageColor3 = Theme:GetTheme(highlightTheme),
-            Image = "http://www.roblox.com/asset/?id=5538771868",
-            ImageTransparency = scope:Computed(function(use)
-                local Hovering = use(Hovering)
-                local Pressed = use(Pressed)
-                local Primary = use(props.Primary)
+            Color = highlightTheme,
+            Size = scope:Computed(function(use)
+                local absoluteSize: Vector2 = button.AbsoluteSize
 
-                if use(Enabled) == false then
-                    return 1
+                if absoluteSize == nil then
+                    return Vector2.new(0, 0)
                 end
 
-                if Hovering == true and Pressed == false and Primary == false then
-                    return .85
-                else
-                    return 1
-                end
+                local greater = if absoluteSize.Y > absoluteSize.X then absoluteSize.Y else absoluteSize.X
+                    
+                return Vector2.new(greater * 1.5, greater * 1.5)
             end),
             Position = scope:Computed(function(use)
                 local position = use(MousePos)
                 local absoluteOther = button.AbsolutePosition
                 local pos = UDim2.new(0, position.X - absoluteOther.X, 0, position.Y - absoluteOther.Y)
                 return pos
-            end)
+            end),
+            Enabled = HoverEffects
         }
 
         return canvasGroup
