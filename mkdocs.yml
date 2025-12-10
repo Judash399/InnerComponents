@@ -1,5 +1,6 @@
 site_name: InnerComponents
 theme:
+  logo: assets/icon.svg
   name: material
   custom_dir: docs/assets/overrides
   palette:
@@ -26,6 +27,7 @@ theme:
     - navigation.top
     - navigation.sections
     - navigation.footer
+    - navigation.indexes
   font:
     text: Roboto
     code: "Fira Code"
@@ -55,6 +57,10 @@ theme:
     previous: lucide/move-left
     next: lucide/move-right
 
+plugins:
+  - search
+  - tags
+
 extra_css:
   - assets/theme/content.css
   - assets/theme/404.css
@@ -69,8 +75,9 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
       options:
         custom_icons:
-          - overrides/.icons
+          - docs/assets/overrides/.icons
   - admonition
   - pymdownx.details
   - pymdownx.superfences
   - attr_list
+  - md_in_html

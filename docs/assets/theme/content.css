@@ -15,7 +15,11 @@
 
 /* Prevents MkDocs from filling the icons and styling them weird. */
 .mdc-icon, .md-icon, .md-icon svg {
-    fill: none;
+    fill: none !important;
     stroke: currentColor;
     stroke-width: 2;
+}
+
+.md-typeset .emojione svg, .md-typeset .gemoji svg, .md-typeset .twemoji svg {
+    fill: none !important;
 }
