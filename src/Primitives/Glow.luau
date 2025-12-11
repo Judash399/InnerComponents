@@ -2,7 +2,6 @@
 A primitive component used by other component like buttons that creates a glow effect.
 ]]
 
-
 --Modules
 local Root = script.Parent.Parent
 

@@ -8,6 +8,8 @@ local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+local Otherwise = require(Root.Utils.Otherwise)
+
 --Refrences
 local Children = Fusion.Children
 local OnEvent = Fusion.OnEvent
@@ -47,20 +49,12 @@ return function(scope: Fusion.Scope<any>)
 
                 return Font.new("rbxasset://fonts/families/Roboto.json", weight, style)
             end),
-            TextSize = scope:Computed(function(use)
-                return use(props.TextSize) or 16
-            end),
+            TextSize = scope:Computed(Otherwise(props.TextSize, 16)),
             TextColor3 = Theme:GetTheme(props.TextTheme or "MainText"),
-            TextXAlignment = scope:Computed(function(use)
-                return use(props.XAlign) or Enum.TextXAlignment.Left
-            end),
-            TextYAlignment = scope:Computed(function(use)
-                return use(props.YAlign) or Enum.TextYAlignment.Center
-            end),
+            TextXAlignment = scope:Computed(Otherwise(props.XAlign, Enum.TextXAlignment.Left)),
+            TextYAlignment = scope:Computed(Otherwise(props.YAlign, Enum.TextYAlignment.Center)),
             AutomaticSize = props.AutomaticSize,
-            TextWrapped = scope:Computed(function(use)
-                return use(props.Wraps) or false
-            end),
+            TextWrapped = scope:Computed(Otherwise(props.Wraps, false)),
             BackgroundTransparency = 1,
             LayoutOrder = props.LayoutOrder,
             [Children] = props.Children,

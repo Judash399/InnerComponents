@@ -9,6 +9,8 @@ local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 local Text = require(Root.Content.Text)
 
+local Otherwise = require(Root.Utils.Otherwise)
+
 --Refrences
 
 --Types
@@ -32,9 +34,7 @@ return function(scope: Fusion.Scope<any>)
         YAlign: Enum.TextYAlignment?,
     })
 
-        local Level = scope:Computed(function(use)
-            return use(props.HeaderLevel) or 1
-        end)
+        local Level = scope:Computed(Otherwise(props.HeaderLevel, 1))
 
         local Boldness = scope:Computed(function(use)
             local level = use(Level)

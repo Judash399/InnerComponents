@@ -1,8 +1,14 @@
+--[[
+A component that creates a text-box with text input.
+]]
+
 --Modules
 local Root = script.Parent.Parent
 
 local Fusion = require(Root.Parent.fusion)
+
 local Theme = require(Root.Utils.Theme)
+local Only = require(Root.Utils.Only)
 
 --Refrences
 local Children = Fusion.Children
@@ -57,7 +63,7 @@ return function(scope: Fusion.Scope<any>)
             end
         end), 25, 1)
 
-        local textbox = scope:New "TextBox" {
+        return scope:New "TextBox" {
             Parent = props.Parent,
             Size = props.Size or UDim2.new(0, 200, 0, 30),
             TextXAlignment = Enum.TextXAlignment.Left,
@@ -92,16 +98,14 @@ return function(scope: Fusion.Scope<any>)
                     Thickness = thickness,
                     Transparency = transparency
                 },
+
+                scope:Computed(Only(
+                    props.Flex,
+                    scope:New "UIFlexItem" {
+                    FlexMode = Enum.UIFlexMode.Fill,
+                    }
+                ))
             }
         }
-
-        if props.Flex then
-            scope:New "UIFlexItem" {
-                  Parent = textbox,
-                  FlexMode = Enum.UIFlexMode.Fill,
-            }
-        end
-        
-        return textbox
     end
 end

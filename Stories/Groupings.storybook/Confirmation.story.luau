@@ -20,6 +20,7 @@ local story = {
         local Button = InnerComponents.Interaction.TextButton(props.scope)
         local Padding = InnerComponents.Layout.Padding(props.scope)
         local Text = InnerComponents.Content.Text(props.scope)
+        local Header = InnerComponents.Content.Header(props.scope)
 
         InnerComponents.SetAcent(props.controls.hue)
 
@@ -56,11 +57,9 @@ local story = {
                     VerticalAlignment = Enum.VerticalAlignment.Center,
                 },
 
-                Text {
+                Header {
                     Text = "Confirm Action",
                     Size = UDim2.new(0, 0, 0, 30),
-                    TextSize = 25,
-                    Weight = Enum.FontWeight.Bold,
                 },
 
                 Text {
