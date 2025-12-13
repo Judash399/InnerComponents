@@ -8,6 +8,9 @@ local Root = script.Parent.Parent
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
+local Only = require(Root.Utils.Only)
+local Otherwise = require(Root.Utils.Otherwise)
+
 --Refrences
 local Children = Fusion.Children
 local peek = Fusion.peek
@@ -25,8 +28,13 @@ return function(scope: Fusion.Scope<any>)
         Flex: boolean?,
         CanvasSize: UsedAs<UDim2>?,
         Size: UsedAs<UDim2>?,
-        Position: UsedAs<UDim2>?
+        Position: UsedAs<UDim2>?,
+        AutoLayout: UsedAs<boolean>?,
+        LayoutPadding: UsedAs<UDim>?,
     })
+
+        local autoLayout = scope:Computed(Otherwise(props.AutoLayout, true))
+
         local backgroundColor = props.BackgroundColor or Theme:GetTheme("CardBackground")
 
         local canvasPosition = scope:Value(Vector2.new(0, 0))
@@ -325,6 +333,10 @@ return function(scope: Fusion.Scope<any>)
                                 PaddingRight = UDim.new(0, 5),
                                 PaddingLeft = UDim.new(0, 5)
                             },
+                            scope:Computed(Only(autoLayout, scope:New "UIListLayout" {
+                                Name = "AutoLayout",
+                                Padding = props.LayoutPadding,
+                            })),
                             props.Children
                         }
                     }
