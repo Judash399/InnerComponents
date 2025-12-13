@@ -1,5 +1,5 @@
 --[[
-A component that creates a frame instance with pre-defined styling intended for use within layouts. (If your just creating a raw frame and customizing the props don't use this! Blank is planning on being removed!)
+A component that creates a frame instance with pre-defined styling intended for use within layouts.
 ]]
 
 --Modules
@@ -23,10 +23,7 @@ return function(scope: Fusion.Scope<any>)
         Children: {Instance}?,
         Level: number?,
         AutoSize: Enum.AutomaticSize?,
-        Blank: boolean?,
-        Transparency: UsedAs<number>?,
         Parent: Instance?,
-        ZIndex: number?,
         AutoLayout: UsedAs<boolean>?,
         LayoutPadding: UsedAs<UDim>?,
     })
@@ -39,23 +36,10 @@ return function(scope: Fusion.Scope<any>)
 
         local autoLayout = scope:Computed(Otherwise(props.AutoLayout, true))
 
-
-        if props.Blank then
-            return scope:New "Frame" {
-                Size = props.Size,
-                AutomaticSize = AutoSize,
-                BackgroundTransparency = props.Transparency or 1,
-                [Children] = props.Children,
-                Parent = props.Parent,
-                ZIndex = props.ZIndex
-            }
-        end
-
         return scope:New "Frame" {
             Size = props.Size,
             BackgroundColor3 = Theme:GetTheme("CardBackground"),
             AutomaticSize = AutoSize,
-            BackgroundTransparency = props.Transparency or 0,
             Parent = props.Parent,
 
             [Children] = {
@@ -68,8 +52,6 @@ return function(scope: Fusion.Scope<any>)
 
                 props.Children
             },
-
-            --TODO: Add the rest of the props.
         }
     end
 end
