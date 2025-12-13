@@ -1,29 +1,37 @@
+--[[
+A component that creates a UIPadding component with defaults.
+]]
+
+--Modules
 local Root = script.Parent.Parent
+
 local Fusion = require(Root.Parent.fusion)
 local Theme = require(Root.Utils.Theme)
 
-local Children = Fusion.Children
+local Otherwise = require(Root.Utils.Otherwise)
 
+--Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
-        Parent: Instance?,
-        Amount: UDim?,
-        LeftAmount: UDim?,
-        RightAmount: UDim?,
-        TopAmount: UDim?,
-        BottomAmount: UDim?,
+        Parent: UsedAs<Instance>?,
+        Amount: UsedAs<UDim>?,
+        LeftAmount: UsedAs<UDim>?,
+        RightAmount: UsedAs<UDim>?,
+        TopAmount: UsedAs<UDim>?,
+        BottomAmount: UsedAs<UDim>?,
     })
-        local PaddingAmount = props.Amount or UDim.new(0, 5)
         local scope = scope:innerScope()
+
+        local PaddingAmount = scope:Computed(Otherwise(props.Amount, UDim.new(0, 5)))
         
         return scope:New "UIPadding" {
             Parent = props.Parent,
-            PaddingBottom = props.BottomAmount or PaddingAmount,
-            PaddingTop = props.TopAmount or PaddingAmount,
-            PaddingRight = props.RightAmount or PaddingAmount,
-            PaddingLeft = props.LeftAmount or PaddingAmount,
+            PaddingBottom = scope:Computed(Otherwise(props.BottomAmount, PaddingAmount)),
+            PaddingTop = scope:Computed(Otherwise(props.TopAmount, PaddingAmount)),
+            PaddingRight = scope:Computed(Otherwise(props.RightAmount, PaddingAmount)),
+            PaddingLeft = scope:Computed(Otherwise(props.LeftAmount, PaddingAmount)),
         }
     end
 end
