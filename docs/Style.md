@@ -1,5 +1,8 @@
 # Style
 
+!!! warning "REMOVE THIS!"
+    This is a completely temporary article that is used for a refrence when styling the website. This needs to be removed!
+
 This is an article that exists to test the theme styling! So lets get started.
 
 # Header 1
