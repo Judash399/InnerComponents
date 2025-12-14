@@ -60,7 +60,7 @@
 }
 
 .md-top:focus {
-    background-color: var(--panel-hover);
+    background-color: var(--panel-hover) !important;
     color: var(--md-default-fg-color--light)
 }
 
