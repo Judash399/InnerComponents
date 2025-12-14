@@ -20,12 +20,14 @@ type UsedAs<T> = Fusion.UsedAs<T>
 return function(scope: Fusion.Scope<any>)
     return function(props: {
         Size: UsedAs<UDim2>?,
+        Position: UsedAs<UDim2>?,
         Children: {Instance}?,
         Level: number?,
         AutoSize: Enum.AutomaticSize?,
         Parent: Instance?,
         AutoLayout: UsedAs<boolean>?,
         LayoutPadding: UsedAs<UDim>?,
+        BackgroundColor: UsedAs<Theme.Theme>?,
     })
         local Level = props.Level or 1
         local scope = scope:innerScope()
@@ -38,7 +40,16 @@ return function(scope: Fusion.Scope<any>)
 
         return scope:New "Frame" {
             Size = props.Size,
-            BackgroundColor3 = Theme:GetTheme("CardBackground"),
+            Position = props.Position,
+            BackgroundColor3 = scope:Computed(function(use)
+                local theme = use(props.BackgroundColor) or "CardBackground"
+
+                if typeof(theme) == "Color3" then
+                    return theme
+                end
+
+                return use(Theme:GetTheme(theme))
+            end),
             AutomaticSize = AutoSize,
             Parent = props.Parent,
 

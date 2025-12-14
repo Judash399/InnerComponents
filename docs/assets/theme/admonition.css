@@ -3,52 +3,46 @@
 }
 
 .md-typeset .admonition {
-
-	/* I'll admit it, this specific line of code was taken from Fusion's documentation.
-	I wanted something similar to what they've done and didn't know how to do it, so I took it.
-	Please forgive me. -Judash399 */
-	background: linear-gradient(var(--admonition-color) -99999%, transparent 5000%), var(--background);
+	background: none;
 	border-width: 2px;
 	border-radius: 6px;
 	box-shadow: none;
 }
 
+:root {
+	/* As far as im aware theres no way to just refrence the svg. So both of these is just the svg data from the lucide icon */
 
-/* these values are just the colors of each admonition type. */
+	/* check */
+	--md-admonition-icon--do: url('data:image/svg+xml;charset=utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M20 6 9 17l-5-5" /> </svg>');
 
-.md-typeset .note {
-	--admonition-color: #448aff;
+	/* x */
+	--md-admonition-icon--dont: url('data:image/svg+xml;charset=utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M18 6 6 18" /> <path d="m6 6 12 12" /> </svg>');
 }
-.md-typeset .abstract {
-	--admonition-color: #00b0ff;
+
+/* Do Admonition */
+
+.md-typeset .admonition.do,
+.md-typeset details.do {
+  border-color: rgb(43, 155, 70);
 }
-.md-typeset .info {
-	--admonition-color: #00b8d4;
+
+.md-typeset .do > .admonition-title::before,
+.md-typeset .do > summary::before {
+  background-color: rgb(43, 155, 70);
+  -webkit-mask-image: var(--md-admonition-icon--do);
+          mask-image: var(--md-admonition-icon--do);
 }
-.md-typeset .tip {
-	--admonition-color: #00bfa5;
+
+/* Don't Admonition */
+
+.md-typeset .admonition.dont,
+.md-typeset details.dont {
+  border-color: rgb(196, 36, 36);
 }
-.md-typeset .success {
-	--admonition-color: #00c853;
-}
-.md-typeset .question {
-	--admonition-color: #64dd17;
-}
-.md-typeset .warning {
-	--admonition-color: #ff9100;
-}
-.md-typeset .failure {
-	--admonition-color: #ff5252;
-}
-.md-typeset .danger {
-	--admonition-color: #ff1744;
-}
-.md-typeset .bug {
-	--admonition-color: #f50057;
-}
-.md-typeset .example {
-	--admonition-color: #7c4dff;
-}
-.md-typeset .quote {
-	--admonition-color: #9e9e9e;
+
+.md-typeset .dont > .admonition-title::before,
+.md-typeset .dont > summary::before {
+  background-color: rgb(196, 36, 36);
+  -webkit-mask-image: var(--md-admonition-icon--dont);
+          mask-image: var(--md-admonition-icon--dont);
 }

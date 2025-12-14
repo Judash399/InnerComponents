@@ -50,7 +50,15 @@ return function(scope: Fusion.Scope<any>)
                 return Font.new("rbxasset://fonts/families/Roboto.json", weight, style)
             end),
             TextSize = scope:Computed(Otherwise(props.TextSize, 16)),
-            TextColor3 = Theme:GetTheme(props.TextTheme or "MainText"),
+            TextColor3 = scope:Computed(function(use)
+                local theme = use(props.TextColor) or "MainText"
+
+                if typeof(theme) == "Color3" then
+                    return theme
+                end
+
+                return use(Theme:GetTheme(theme))
+            end),
             TextXAlignment = scope:Computed(Otherwise(props.XAlign, Enum.TextXAlignment.Left)),
             TextYAlignment = scope:Computed(Otherwise(props.YAlign, Enum.TextYAlignment.Center)),
             AutomaticSize = props.AutomaticSize,

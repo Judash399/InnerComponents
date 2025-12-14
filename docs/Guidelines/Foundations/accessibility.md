@@ -10,11 +10,24 @@ Some users are sensitive to motion/animation, whether for accessibility reasons,
 * There should always be an option to turn of animations.
 * Your App should remain fully functional with disabled animations. 
 
+
 ## Contrast :lucide-contrast:
 Text and interactive elements must maintain sufficient contrast against their background. 
 
 * Text should be clearly readable in both light and dark modes.
 * Disabled elements should still be legible.
+
+<div class="admonition-row" markdown>
+
+!!! do "Do"
+    ![Good Contrast](../../assets/images/examples/accessibility/ContrastDo.png)
+    The text is easy to read, and contrasts the background well.
+
+!!! dont "Don't"
+    ![Bad Contrast](../../assets/images/examples/accessibility/ContrastDont.png)
+    The text is hard to read, and doesnt contrast the background well.
+
+</div>
 
 ## Color blindness :lucide-eye:
 Design with color blindness in mind. When choosing colors:

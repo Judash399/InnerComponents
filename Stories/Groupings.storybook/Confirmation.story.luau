@@ -43,6 +43,7 @@ local story = {
             Level = 1.5,
             AutoSize = Enum.AutomaticSize.Y,
             Parent = props.target,
+            AutoLayout = false,
 
             Children = {
                 Padding {
@@ -89,6 +90,7 @@ local story = {
                 Frame {
                     Blank = true,
                     Size = UDim2.new(1, 0, 0, 40),
+                    AutoLayout = false,
                     Children = {
                          props.scope:New "UIListLayout" {
                             FillDirection = Enum.FillDirection.Horizontal,

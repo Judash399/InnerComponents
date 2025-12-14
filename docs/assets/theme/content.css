@@ -67,3 +67,14 @@
 html {
     scroll-behavior: smooth;
 }
+
+.admonition-row {
+  display: flex;          /* align children horizontally */
+  gap: 16px;              /* space between admonitions */
+  flex-wrap: wrap;        /* wrap on small screens */
+}
+
+.admonition-row .admonition {
+  flex: 1 1 48%;          /* each takes ~50% width, shrinks if needed */
+  box-sizing: border-box;
+}

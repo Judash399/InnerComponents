@@ -42,8 +42,15 @@ This is an article that exists to test the theme styling! So lets get started.
 !!! example
     This is an example!
 
+
 !!! quote
     This is a quote!
+
+!!! do
+    do this, its correct!
+
+!!! dont
+    don't do this, its wrong!
 
 ??? note
     This is collapsible!
