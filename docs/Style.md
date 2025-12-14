@@ -13,7 +13,7 @@ This is an article that exists to test the theme styling! So lets get started.
     This is a note!
 
 !!! abstract
-    This is a abstract!
+    This is an abstract!
 
 !!! info
     This is a info!
@@ -40,7 +40,7 @@ This is an article that exists to test the theme styling! So lets get started.
     This is a bug!
 
 !!! example
-    This is a example!
+    This is an example!
 
 !!! quote
     This is a quote!
