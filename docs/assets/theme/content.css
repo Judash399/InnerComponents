@@ -59,6 +59,11 @@
     color: var(--md-default-fg-color--light)
 }
 
+.md-top:focus {
+    background-color: var(--panel-hover);
+    color: var(--md-default-fg-color--light)
+}
+
 html {
     scroll-behavior: smooth;
 }

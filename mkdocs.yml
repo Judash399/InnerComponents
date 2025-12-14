@@ -6,7 +6,7 @@ repo_name: InnerComponents
 theme:
 
   logo: assets/icon
-  favicon: assets/icon.svg
+  favicon: assets/icon-dark.svg
   name: material
   custom_dir: docs/assets/overrides
   palette:
