@@ -21,11 +21,11 @@
 	background-repeat: no-repeat;
 }
 
-[data-md-color-scheme="default"] #theme404 .graphic {
+[data-md-color-scheme="light"] #theme404 .graphic {
     background-image: url("../images/ghost-light.svg");
 }
 
-[data-md-color-scheme="slate"] #theme404 .graphic {
+[data-md-color-scheme="dark"] #theme404 .graphic {
     background-image: url("../images/ghost-dark.svg");
 }
 
