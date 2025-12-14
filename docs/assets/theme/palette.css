@@ -1,5 +1,6 @@
 [data-md-color-scheme="dark"] {
     --md-primary-fg-color: var(--md-default-bg-color);
+    --md-primary-fg-color--dark: var(--md-default-bg-color);
 
     --md-typeset-a-color: rgb(255, 136, 0);
     --md-accent-fg-color: rgb(175, 93, 0);
@@ -49,6 +50,7 @@
     --md-accent-fg-color: rgb(117, 63, 0);
 
     --md-primary-fg-color: var(--md-default-bg-color);
+    --md-primary-fg-color--dark: var(--md-default-bg-color);
     --md-primary-bg-color: rgb(51, 51, 51);
     --md-default-bg-color: rgb(241, 241, 241);
 
