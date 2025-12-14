@@ -26,4 +26,13 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install mkdocs-material 
+      
+      # --- New step to install Lucide icons ---
+      - name: Install Lucide Icons
+        run: |
+          git clone https://github.com/lucide-icons/lucide.git temp-lucide
+          mkdir -p docs/assets/overrides/.icons
+          mv temp-lucide/icons docs/assets/overrides/.icons/lucide
+          rm -rf temp-lucide
+
       - run: mkdocs gh-deploy --force
