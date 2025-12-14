@@ -1,4 +1,6 @@
-site_name: InnerComponents
+site_name: Inner Design
+repo_url: https://github.com/Judash399/InnerComponents
+repo_name: InnerComponents
 
 theme:
 
@@ -42,7 +44,7 @@ theme:
     share: lucide/share-2
     close: lucide/x
     top: lucide/chevrons-up
-    edit: lucide/pensil
+    edit: lucide/pencil
     view: lucide/telescope
     repo: lucide/github
     admonition:
