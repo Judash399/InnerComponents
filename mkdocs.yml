@@ -1,9 +1,13 @@
 site_name: InnerComponents
+
 theme:
-  logo: assets/icon.svg
+
+  logo: assets/icon
+  favicon: assets/icon.svg
   name: material
   custom_dir: docs/assets/overrides
   palette:
+
     - media: "(prefers-color-scheme)"
       toggle:
         icon: lucide/sun-moon
@@ -11,14 +15,14 @@ theme:
 
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: default
+      scheme: light
       toggle:
         icon: lucide/sun
         name: Switch to dark mode
 
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
-      scheme: slate
+      scheme: dark
       toggle:
         icon: lucide/moon
         name: Switch to system preference
@@ -68,6 +72,9 @@ extra_css:
   - assets/theme/colors.css
   - assets/theme/admonition.css
   - assets/theme/button.css
+  - assets/theme/palette.css
+  - assets/theme/footer.css
+  - assets/theme/header.css
 
 markdown_extensions:
   - pymdownx.emoji:

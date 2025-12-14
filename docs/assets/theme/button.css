@@ -1,7 +1,7 @@
 .md-typeset .md-button {
     border-radius: 6px;
     padding: 0 1em;
-    background-color: var(--md-primary-fg-color);
+    background-color: var(--md-typeset-a-color);
 
     color: white;
 

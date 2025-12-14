@@ -49,3 +49,18 @@ This is an article that exists to test the theme styling! So lets get started.
     This is collapsible!
 
 [Button!](#){ .md-button }
+
+## Code
+```lua title="Test.luau" linenums="1" hl_lines="5 6 7 8 9"
+print("wow")
+--This is a comment.
+local var = 2
+
+function foo(one, two)
+    if one == two then
+        return true, "Yay"
+    end
+end
+
+print(foo(2, 2))
+```
