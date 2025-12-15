@@ -38,6 +38,10 @@ Design with color blindness in mind. When choosing colors:
 ## Input :lucide-gamepad-2:
 Users shouldn't be required to perform precise or fast inputs.
 
-* Click/Tap targets should be larger then they appear visually.
-* Avoid actions like double-clicks.
 * Timed-based actions should have a wide response window. Idealy around 5-10 seconds.
+* Avoid actions like double-clicks.
+
+!!! do "Do"
+    ![Large Click Target](../../assets/images/examples/accessibility/TargetDo.png)
+    
+    Click/Tap targets should be larger then they appear visually.

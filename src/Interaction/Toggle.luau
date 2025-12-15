@@ -13,7 +13,8 @@ type UsedAs<T> = Fusion.UsedAs<T>
 return function(scope: Fusion.Scope<any>)
     return function(props: {
         Parent: Instance,
-        enabled: UsedAs<boolean>?
+        enabled: UsedAs<boolean>?,
+        Position: UsedAs<UDim2>?,
     })
         local scope = scope:innerScope()
 
@@ -65,6 +66,7 @@ return function(scope: Fusion.Scope<any>)
 
         return scope:New "TextButton" {
             Size = UDim2.new(0, 45, 0, 29),
+            Position = props.Position,
             Parent = props.Parent,
             BackgroundTransparency = 1,
 

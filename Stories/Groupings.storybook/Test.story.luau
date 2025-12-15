@@ -30,26 +30,9 @@ local story = {
             BackgroundColor3 = Color3.new(0, 0, 0),
 
             [Fusion.Children] = {
-                Frame {
-                    Size = UDim2.new(0, 300, 0, 100),
-                    Level = 1.5,
-                    AutoSize = Enum.AutomaticSize.Y,
-                    Position = UDim2.new(.5, 0, .5, 0),
-                    
-                    AutoLayout = false,
-
-                    BackgroundColor = Color3.new(.5, 0, 0),
-
-                    Children = {
-                        Text {
-                            Text = "Welcome to my App!",
-                            Size = UDim2.new(1, 0, 1, 0),
-                            Weight = Enum.FontWeight.ExtraBold,
-                            TextSize = 25,
-                            XAlign = Enum.TextXAlignment.Center,
-                            TextColor = Color3.new(1, 1, 1),
-                        }
-                    }
+                InnerComponents.Interaction.Toggle(props.scope) {
+                    Parent = props.target,
+                    Position = UDim2.new(.5, 0, .5, 0)
                 }
             },
         }
