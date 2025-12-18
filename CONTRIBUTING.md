@@ -37,6 +37,7 @@ Thanks for wanting to contribute components to InnerComponents. Please make sure
 * **Non specific to your project** - You are **expected** to make some components for your project, its just part of developing UI.
 * **Follows the style guide** - Components should all follow the same style guide to keep everything part of one codebase.
 * **Customizable** - Components should have *Many* props for users to control.
+* **Reactive props** - All props should be reactive, even props that in pretty much all situations shouldnt update, should still be reactive. This is to create an improved user expeience and more consistancy within the module.
 
 ## Contributing code
 Please remember you should create a issue before a pull request when contributing code for a new feature. Pull requests should always close an issue!
