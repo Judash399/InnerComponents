@@ -11,8 +11,15 @@ local Theme = require(Root.Utils.Theme)
 local Only = require(Root.Utils.Only)
 local Otherwise = require(Root.Utils.Otherwise)
 
+local Grabber = require(Root.Utils.Grabber)
+
+--Components
+local Corner = require(Root.Primitives.Corner)
+
+
 --Refrences
 local Children = Fusion.Children
+local Out = Fusion.Out
 
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>
@@ -22,23 +29,26 @@ return function(scope: Fusion.Scope<any>)
         Size: UsedAs<UDim2>?,
         Position: UsedAs<UDim2>?,
         Children: {Instance}?,
-        Level: number?,
+        Level: UsedAs<number>?,
         AutoSize: Enum.AutomaticSize?,
         Parent: Instance?,
         AutoLayout: UsedAs<boolean>?,
         LayoutPadding: UsedAs<UDim>?,
         BackgroundColor: UsedAs<Theme.Theme>?,
     })
-        local Level = props.Level or 1
         local scope = scope:innerScope()
 
-        local AutoSize = props.AutoSize or Enum.AutomaticSize.None
-        
-        local Corner = require(Root.Primitives.Corner)(scope)
+        local parent = scope:Value(nil)
 
-        local autoLayout = scope:Computed(Otherwise(props.AutoLayout, true))
+        local props = Grabber.ConvertProps(scope, {
+            Parent = parent
+        }, props)
 
-        return scope:New "Frame" {
+        local Level = scope:Computed(Otherwise(props.Level, 1))
+        local AutoSize = scope:Computed(Otherwise(props.AutoSize, Enum.AutomaticSize.None))
+        local AutoLayout = scope:Computed(Otherwise(props.AutoLayout, true))
+
+        local frame = scope:New "Frame" {
             Size = props.Size,
             Position = props.Position,
             BackgroundColor3 = scope:Computed(function(use)
@@ -52,11 +62,12 @@ return function(scope: Fusion.Scope<any>)
             end),
             AutomaticSize = AutoSize,
             Parent = props.Parent,
+            [Out "Parent"] = parent,
 
             [Children] = {
-                Corner {Level = Level},
+                Corner(scope) {Level = Level},
 
-                scope:Computed(Only(autoLayout, scope:New "UIListLayout" {
+                scope:Computed(Only(AutoLayout, scope:New "UIListLayout" {
                     Name = "AutoLayout",
                     Padding = props.LayoutPadding,
                 })),
@@ -64,5 +75,9 @@ return function(scope: Fusion.Scope<any>)
                 props.Children
             },
         }
+
+        Grabber.Export(frame, props)
+
+        return frame
     end
 end
