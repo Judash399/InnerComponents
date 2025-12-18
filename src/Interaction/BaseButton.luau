@@ -6,6 +6,8 @@ local Theme = require(Root.Utils.Theme)
 
 local Glow = require(Root.Primitives.Glow)
 
+local Grabber = require(Root.Utils.Grabber)
+
 --Refrences
 local Children = Fusion.Children
 local OnEvent = Fusion.OnEvent
@@ -41,31 +43,36 @@ return function(Scope: Fusion.Scope<any>)
         MousePosition: Fusion.Value<any, Vector2>?,
         AbsSizeReturn: Fusion.Value<any, Vector2>?,
         MouseHolding: Fusion.Value<any, boolean>?,
+
+        --Newer Outputs
+        Hovering: Fusion.Value<any, boolean>?,
     })
         local scope = Scope:innerScope()
 
+        local parent = scope:Value(nil)
+
+        local Hovering = props.Hovering or scope:Value(false)
+
+        local props = Grabber.ConvertProps(scope, {
+            Parent = parent
+        }, props)
+
         local Corner = require(Root.Primitives.Corner)(scope)
 
-
-        local Hovering = scope:Value(false)
         local Pressed = scope:Value(false)
         local Enabled = props.Enabled or true
 	    local MousePos = props.MousePosition or scope:Value(Vector2.new(0, 0))
 
         local HoverEffects = scope:Computed(function(use)
-            local hovering = use(Hovering)
-            local pressed = use(Pressed)
-            local enabled = use(Enabled)
-
-            if enabled == false then
+            if use(Enabled) == false then
                 return false
             end
 
-            if pressed == true then
+            if use(Pressed) == true then
                 return false
             end
 
-            if hovering == true then
+            if use(Hovering) == true then
                 return true
             end
 
@@ -132,6 +139,8 @@ return function(Scope: Fusion.Scope<any>)
             Size = props.Size or UDim2.new(0, 200, 0, 50),
             Parent = props.parent,
             BackgroundTransparency = 1,
+            
+            [Out "Parent"] = parent,
 
             [Children] = {
                 Corner {
@@ -242,6 +251,8 @@ return function(Scope: Fusion.Scope<any>)
             end),
             Enabled = HoverEffects
         }
+
+        Grabber.Export(canvasGroup, props)
 
         return canvasGroup
     end

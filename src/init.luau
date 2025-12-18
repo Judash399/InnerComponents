@@ -37,6 +37,10 @@ local components = {
         VerticalView = require(Plugin.VerticalPlugin),
     },
 
+    Methods = {
+        Grab = require(script.Utils.Grabber).Grab
+    },
+
     SetAcent = Theme.SetAcent
 }
 
