@@ -30,6 +30,7 @@ local components = {
         Pargraph = require(Content.Paragraph),
         Header = require(Content.Header),
         ImageIcon = require(Content.ImageIcon),
+        Tooltip = require(Content.Tooltip),
     },
 
     --Components that are intended for use specificly within plugins.
