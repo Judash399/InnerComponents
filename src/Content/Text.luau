@@ -61,7 +61,7 @@ return function(scope: Fusion.Scope<any>)
             end),
             TextXAlignment = scope:Computed(Otherwise(props.XAlign, Enum.TextXAlignment.Left)),
             TextYAlignment = scope:Computed(Otherwise(props.YAlign, Enum.TextYAlignment.Center)),
-            AutomaticSize = props.AutomaticSize,
+            AutomaticSize = scope:Computed(Otherwise(props.AutomaticSize, Enum.AutomaticSize.XY)),
             TextWrapped = scope:Computed(Otherwise(props.Wraps, false)),
             BackgroundTransparency = 1,
             LayoutOrder = props.LayoutOrder,
