@@ -40,4 +40,4 @@ Thanks for wanting to contribute components to InnerComponents. Please make sure
 * **Reactive props** - All props should be reactive, even props that in pretty much all situations shouldnt update, should still be reactive. This is to create an improved user expeience and more consistancy within the module.
 
 ## Contributing code
-Please remember you should create a issue before a pull request when contributing code for a new feature. Pull requests should always close an issue!
+Please remember you should create a issue before a pull request when contributing code for a new feature. Pull requests should always close an issue! Please make sure if follows our code [style guide](Style-Guide.md)
