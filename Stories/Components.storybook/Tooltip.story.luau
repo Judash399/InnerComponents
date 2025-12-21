@@ -9,7 +9,8 @@ local InnerComponents = require(Packages.InnerComponents)
 
 local controls = {
     direction = "bottom",
-    offset = 1
+    offset = 1,
+    Enabled = false,
 }
 
 local story = {
@@ -31,6 +32,7 @@ local story = {
             Target = frame,
             Direction = props.controls.direction,
             Offset = props.controls.offset,
+            Active = props.controls.Enabled,
 
             Children = {
                 InnerComponents.Content.Header(props.scope) {

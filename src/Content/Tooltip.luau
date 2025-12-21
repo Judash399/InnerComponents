@@ -33,6 +33,7 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
     Flex: UsedAs<boolean>?,
     Direction: UsedAs<"left" | "right" | "top" | "bottom">?,
     Offset: UsedAs<number>?,
+    Active: UsedAs<boolean>?,
 
     AutoLayout: UsedAs<boolean>?,
     LayoutPadding: UsedAs<UDim>?,
@@ -89,6 +90,10 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
         return value
     end)
 
+    local extraMoveAmount = scope:Spring(scope:Computed(function(use)
+        return if use(props.Active) then 15 else 10
+    end), 40, 1)
+
     local Position = scope:Computed(function(use, scope)
         local parent = use(parent)
         if parent == nil then return end
@@ -114,16 +119,16 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
         local position =  (use(tarPos) + (use(tarSize) / 2)) - use(ParPos)
 
         local direction = use(direction)
-        
+   
         local offset
         if direction == "bottom" then
-            offset = Vector2.new(0, (use(tarSize).Y / 2)) + Vector2.new(0, 15) - Vector2.new(use(Finaloffset), 0) + Vector2.new(use(ClampedAmount), 0)
+            offset = Vector2.new(0, (use(tarSize).Y / 2)) + Vector2.new(0, use(extraMoveAmount)) - Vector2.new(use(Finaloffset), 0) + Vector2.new(use(ClampedAmount), 0)
         elseif direction == "top" then
-            offset = Vector2.new(0, -(use(tarSize).Y / 2)) - Vector2.new(0, 15) - Vector2.new(use(Finaloffset), 0) + Vector2.new(use(ClampedAmount), 0)
+            offset = Vector2.new(0, -(use(tarSize).Y / 2)) - Vector2.new(0, use(extraMoveAmount)) - Vector2.new(use(Finaloffset), 0) + Vector2.new(use(ClampedAmount), 0)
         elseif direction == "left" then
-            offset = Vector2.new(-(use(tarSize).X / 2)) - Vector2.new(15, 0) - Vector2.new(1, use(Finaloffset)) + Vector2.new(0, use(ClampedAmount))
+            offset = Vector2.new(-(use(tarSize).X / 2)) - Vector2.new(use(extraMoveAmount), 0) - Vector2.new(1, use(Finaloffset)) + Vector2.new(0, use(ClampedAmount))
         elseif direction == "right" then
-            offset = Vector2.new((use(tarSize).X / 2), 0) + Vector2.new(15, 0) - Vector2.new(1, use(Finaloffset)) + Vector2.new(0, use(ClampedAmount))
+            offset = Vector2.new((use(tarSize).X / 2), 0) + Vector2.new(use(extraMoveAmount), 0) - Vector2.new(1, use(Finaloffset)) + Vector2.new(0, use(ClampedAmount))
         end
 
         local finalPos = position + offset
@@ -131,82 +136,93 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
         return UDim2.new(0, finalPos.X, 0, finalPos.Y)
     end)
 
-    local tooltip = scope:New "Frame" {
+    local tooltip = scope:New "CanvasGroup" {
+        Size = UDim2.new(1, 0, 1, 0),
         Parent = props.Parent,
-        Position = scope:Computed(Otherwise(Position,  UDim2.new(.5, 0, .5, 0))),
-        Name = "Tooltip",
-        [Out "Parent"] = parent,
-        BackgroundColor3 = scope:Computed(function(use)
-            return use(Theme:GetTheme(use(backgroundColorTheme)))
-        end),
-
-        --AutomaticSize = Enum.AutomaticSize.XY,
-        Size = scope:Computed(function(use)
-            return UDim2.new(0, use(size).X, 0, use(size).Y)
-        end),
-        AnchorPoint = scope:Computed(Map(direction, {
-            ["right"] = Vector2.new(0, 0),
-            ["left"] = Vector2.new(1, 0),
-            ["bottom"] = Vector2.new(0, 0),
-            ["top"] = Vector2.new(0, 1),
-        })),
-
+        BackgroundTransparency = 1,
+        GroupTransparency = scope:Spring(scope:Computed(function(use)
+            return if use(props.Active) then 0 else 1
+        end), 60, 1),
+        
         [Children] = {
-            Corner(scope) {Level = 1},
             scope:New "Frame" {
-                Name = "Arrow",
-                Size = UDim2.new(0, 12, 0, 12),
+                
+                Position = scope:Computed(Otherwise(Position,  UDim2.new(.5, 0, .5, 0))),
+                Name = "Tooltip",
+                [Out "Parent"] = parent,
                 BackgroundColor3 = scope:Computed(function(use)
                     return use(Theme:GetTheme(use(backgroundColorTheme)))
                 end),
+
+                --AutomaticSize = Enum.AutomaticSize.XY,
+                Size = scope:Computed(function(use)
+                    return UDim2.new(0, use(size).X, 0, use(size).Y)
+                end),
                 AnchorPoint = scope:Computed(Map(direction, {
-                    ["right"] = Vector2.new(.3, .5),
-                    ["left"] = Vector2.new(.7, .5),
-                    ["bottom"] =  Vector2.new(.5, .3),
-                    ["top"] = Vector2.new(.5, .7),
+                    ["right"] = Vector2.new(0, 0),
+                    ["left"] = Vector2.new(1, 0),
+                    ["bottom"] = Vector2.new(0, 0),
+                    ["top"] = Vector2.new(0, 1),
                 })),
-                Position = scope:Computed(Map(direction, {
-                    ["right"] = scope:Computed(function(use)
-                        return UDim2.new(0, 0, 0, use(clampedOffset))
-                    end),
-                    ["left"] = scope:Computed(function(use)
-                        return UDim2.new(1, 0, 0, use(clampedOffset))
-                    end),
-                    ["bottom"] = scope:Computed(function(use)
-                        return UDim2.new(0, use(clampedOffset), 0, 0)
-                    end),
-                    ["top"] = scope:Computed(function(use)
-                        return UDim2.new(0, use(clampedOffset), 1, 0)
-                    end),
-                })),
-                Rotation = 45,
 
                 [Children] = {
-                    Corner(scope) {Level = .5},
-                }
-            },
-            scope:New "Frame" {
-                Name = "Content",
-                Size = UDim2.new(0, 0, 0, 0),
-                [Out "AbsoluteSize"] = size,
-                BackgroundTransparency = 1,
-                AutomaticSize = scope:Computed(Otherwise(props.Flex, Enum.AutomaticSize.XY)),
+                    Corner(scope) {Level = 1},
+                    scope:New "Frame" {
+                        Name = "Arrow",
+                        Size = UDim2.new(0, 12, 0, 12),
+                        BackgroundColor3 = scope:Computed(function(use)
+                            return use(Theme:GetTheme(use(backgroundColorTheme)))
+                        end),
+                        AnchorPoint = scope:Computed(Map(direction, {
+                            ["right"] = Vector2.new(.3, .5),
+                            ["left"] = Vector2.new(.7, .5),
+                            ["bottom"] =  Vector2.new(.5, .3),
+                            ["top"] = Vector2.new(.5, .7),
+                        })),
+                        Position = scope:Computed(Map(direction, {
+                            ["right"] = scope:Computed(function(use)
+                                return UDim2.new(0, 0, 0, use(clampedOffset))
+                            end),
+                            ["left"] = scope:Computed(function(use)
+                                return UDim2.new(1, 0, 0, use(clampedOffset))
+                            end),
+                            ["bottom"] = scope:Computed(function(use)
+                                return UDim2.new(0, use(clampedOffset), 0, 0)
+                            end),
+                            ["top"] = scope:Computed(function(use)
+                                return UDim2.new(0, use(clampedOffset), 1, 0)
+                            end),
+                        })),
+                        Rotation = 45,
 
-                [Children] = {
-                    scope:Computed(Only(scope:Computed(Otherwise(props.AutoLayout, true)), scope:New "UIListLayout" {
-                        Name = "AutoLayout",
-                        
-                        Padding = scope:Computed(Otherwise(props.LayoutPadding, UDim.new(0, 5))),
-                        VerticalAlignment = Enum.VerticalAlignment.Center,
-                    })),
-                    Padding(scope) {
-
+                        [Children] = {
+                            Corner(scope) {Level = .5},
+                        }
                     },
+                    scope:New "Frame" {
+                        Name = "Content",
+                        Size = UDim2.new(0, 0, 0, 0),
+                        [Out "AbsoluteSize"] = size,
+                        BackgroundTransparency = 1,
+                        AutomaticSize = scope:Computed(Otherwise(props.Flex, Enum.AutomaticSize.XY)),
 
-                    props.Children,
+                        [Children] = {
+                            scope:Computed(Only(scope:Computed(Otherwise(props.AutoLayout, true)), scope:New "UIListLayout" {
+                                Name = "AutoLayout",
+                                
+                                Padding = scope:Computed(Otherwise(props.LayoutPadding, UDim.new(0, 5))),
+                                VerticalAlignment = Enum.VerticalAlignment.Center,
+                            })),
+                            Padding(scope) {
+
+                            },
+
+                            props.Children,
+                        },
+                    },
                 },
             },
-        },
+        }
     }
 
     Grabber.Export(tooltip, props)
