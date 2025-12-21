@@ -28,6 +28,7 @@ local story = {
             Size = UDim2.new(0, 300, 0, 40),
             Level = 1.5,
             Parent = props.target,
+            AutoLayout = false,
             Children = {
                 Padding {},
                 

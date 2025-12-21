@@ -12,9 +12,9 @@ return function<T, Y>(value: UsedAs<T>, otherwise: UsedAs<Y>): (Fusion.Use, Fusi
         local otherwise = use(otherwise)
 
         if value ~= nil then
-            return value
+            return use(value)
         else
-            return otherwise
+            return use(otherwise)
         end
     end
 end

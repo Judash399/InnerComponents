@@ -73,6 +73,8 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
             SecondaryButtonPress = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Dark),
             SecondaryButtonGlow = if light then Color3.new(0, 0, 0) else Color3.new(1, 1, 1),
             SecondaryContent = theme:GetColor(Enum.StudioStyleGuideColor.ButtonText),
+
+            Tooltip =  theme:GetColor(Enum.StudioStyleGuideColor.Tooltip)
         }
 
         return colors
