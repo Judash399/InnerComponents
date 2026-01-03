@@ -82,7 +82,9 @@ return function(scope: Fusion.Scope<any>)
                     BackgroundColor3 = color,
 
                     [Children] = {
-                        Corner {Level = 1},
+                        scope:New "UICorner" {
+                            CornerRadius = UDim.new(0.5, 0)
+                        },
                         Padding {Amount = UDim.new(0, 3)},
                         scope:New "Frame" {
                             Position = position,
@@ -97,7 +99,9 @@ return function(scope: Fusion.Scope<any>)
                             end),
 
                             [Children] = {
-                                Corner {Level = .67},
+                                scope:New "UICorner" {
+                                    CornerRadius = UDim.new(0.5, 0)
+                                },
                             }
                         }
                     }

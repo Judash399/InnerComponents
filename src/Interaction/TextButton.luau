@@ -13,8 +13,8 @@ type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(scope: Fusion.Scope<any>)
     return function(props: {
-        Primary: boolean?,
-        parent: Instance?,
+        Primary: UsedAs<boolean>?,
+        Parent: Instance?,
         Size: UsedAs<UDim2>?,
         Text: UsedAs<string>?,
         Pressed: () -> (),
@@ -23,39 +23,41 @@ return function(scope: Fusion.Scope<any>)
     })
         local scope = scope:innerScope()
 
+        local textTheme = scope:Computed(function(use)
+            if use(props.Primary) == true then
+                return "PrimaryContent"
+            else
+                return "SecondaryContent"
+            end
+        end)
+
         local button = Button(scope) {
             Primary = props.Primary,
-            parent = props.parent,
+            Parent = props.Parent,
             Size = props.Size,
             Pressed = props.Pressed,
             Enabled = props.Enabled,
-        }
 
-        local textTheme
-        if props.Primary == true then
-            textTheme = "PrimaryContent"
-        else
-            textTheme = "SecondaryContent"
-        end
-
-        local content = scope:New "Frame" {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 1, 0),
-            Parent = button,
-            [Children] = {
-                scope:New "UIListLayout" {
-                    FillDirection = Enum.FillDirection.Horizontal,
-                    HorizontalAlignment = Enum.HorizontalAlignment.Center,
-                    VerticalAlignment = Enum.VerticalAlignment.Center,
-                },
-                Text(scope) {
-                    Size = UDim2.new(0, 0, 1, 0),
-                    AutomaticSize = Enum.AutomaticSize.X,
-                    TextSize = 17,
-                    Text = props.Text,
-                    TextTheme = textTheme,
-                    XAlign = Enum.TextXAlignment.Center
-                },
+            Children = {
+                scope:New "Frame" {
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    [Children] = {
+                        scope:New "UIListLayout" {
+                            FillDirection = Enum.FillDirection.Horizontal,
+                            HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                            VerticalAlignment = Enum.VerticalAlignment.Center,
+                        },
+                        Text(scope) {
+                            Size = UDim2.new(0, 0, 1, 0),
+                            AutomaticSize = Enum.AutomaticSize.X,
+                            TextSize = 17,
+                            Text = props.Text,
+                            TextColor = textTheme,
+                            XAlign = Enum.TextXAlignment.Center
+                        },
+                    }
+                }
             }
         }
         

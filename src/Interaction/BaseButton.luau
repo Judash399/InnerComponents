@@ -93,43 +93,34 @@ return function(Scope: Fusion.Scope<any>)
 
         local theme
         local hoverTheme
-        local pressedTheme
         local highlightTheme
-        if props.Primary then
+        if peek(props.Primary) then
             theme = "Primary"
             hoverTheme = "PrimaryButtonHighlight"
-            pressedTheme = "PrimaryButtonPress"
             highlightTheme = "PrimaryButtonGlow"
         else
             theme = "SecondaryButton"
             hoverTheme = "SecondaryButtonHighlight"
-            pressedTheme = "SecondaryButtonPress"
             highlightTheme = "SecondaryButtonGlow"
         end
 
         local color = Theme:GetTheme(theme)
 
         local FinalColor = scope:Spring(scope:Computed(function(use)
-            local color = use(color)
-
-            local hovering = use(HoverEffects)
-            local pressed = use(Pressed)
-
             if use(props.Background) == false then
                 return peek(Theme:GetTheme("SecondaryButtonHighlight"))
             end
 
             if use(Enabled) == false then
-                return color
+                return use(color)
             end
 
-
-            if hovering then
+            if use(HoverEffects) then
                 return peek(Theme:GetTheme(hoverTheme))
-            elseif pressed then
-                return peek(Theme:GetTheme(pressedTheme))
+            elseif use(Pressed) then
+                return peek(Theme:GetTheme(theme))
             else
-                return color
+                return use(color)
             end
         end), 50, 1)
 
@@ -207,19 +198,19 @@ return function(Scope: Fusion.Scope<any>)
 
             BackgroundTransparency = scope:Computed(function(use)
                 local hover = use(HoverEffects)
-
-                if props.Background == false and hover then
-                    return 0
+                local background = use(props.Background)
+                if background == nil then
+                    background = true
                 end
 
-                if props.Background == true or props.Background == nil then
-                    return 0
-                else
-                    if hover then
-                        return .99
-                    else 
+                if background == false then
+                    if hover == true then
+                        return 0.5
+                    else
                         return 1
                     end
+                elseif background == true then
+                    return 0
                 end
             end),
 
@@ -241,7 +232,7 @@ return function(Scope: Fusion.Scope<any>)
 
                 local greater = if absoluteSize.Y > absoluteSize.X then absoluteSize.Y else absoluteSize.X
                     
-                return Vector2.new(greater * 1.5, greater * 1.5)
+                return Vector2.new(greater * 2, greater * 2)
             end),
             Position = scope:Computed(function(use)
                 local position = use(MousePos)

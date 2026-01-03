@@ -78,7 +78,8 @@ local story = {
 
                 InnerComponents.Interaction.TextBox(props.scope) {
                     PlaceholderText = "ExampleUsername123",
-                    Text = text
+                    Text = text,
+                    Icon = "user"
                 },
 
                 --Padding

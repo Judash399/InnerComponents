@@ -44,7 +44,7 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
     CurrentTheme = Scope:Computed(function(use)
         local AccentHue = use(Accent)
         local theme: StudioTheme = use(theme)
-
+        local light = use(light)
         
         local colors = {
             Primary = OklabConverter.OklchToRGB({ L = if light then .7 else .75, C = .12, H = AccentHue}),
@@ -63,14 +63,12 @@ function Theme.SetAcent(Accent: Fusion.UsedAs<number>)
 
             --Buttons
             PrimaryButtonHighlight = OklabConverter.OklchToRGB({L = if light then .75 else .8, C = .1, H = AccentHue}),
-            PrimaryButtonPress = OklabConverter.OklchToRGB({L = if light then .6 else .65, C = .1, H = AccentHue}),
             PrimaryButtonGlow = Color3.new(1, 1, 1),
             PrimaryContent = Color3.new(1, 1, 1),
             
             
             SecondaryButton = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Midlight),
             SecondaryButtonHighlight = theme:GetColor(if light then Enum.StudioStyleGuideColor.Dark else Enum.StudioStyleGuideColor.Light),
-            SecondaryButtonPress = theme:GetColor(if light then Enum.StudioStyleGuideColor.Button else Enum.StudioStyleGuideColor.Dark),
             SecondaryButtonGlow = if light then Color3.new(0, 0, 0) else Color3.new(1, 1, 1),
             SecondaryContent = theme:GetColor(Enum.StudioStyleGuideColor.ButtonText),
 

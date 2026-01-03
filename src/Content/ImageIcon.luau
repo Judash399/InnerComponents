@@ -26,7 +26,8 @@ return function(scope: Fusion.Scope<any>)
         Position: UsedAs<UDim2>?,
         Size: UsedAs<UDim2>?,
         Parent: Instance?,
-        Transparency: UsedAs<number>?
+        Transparency: UsedAs<number>?,
+        ZIndex: UsedAs<number>?,
     })
 
         local IconInfo = scope:Computed(function(use)
@@ -55,6 +56,7 @@ return function(scope: Fusion.Scope<any>)
             ImageRectSize = IndexValue(IconInfo, "ImageRectSize"),
             ImageRectOffset = IndexValue(IconInfo, "ImageRectOffset"),
             BackgroundTransparency = 1,
+            ZIndex = props.ZIndex,
             ImageTransparency = scope:Computed(Otherwise(props.Transparency, 0)),
             ImageColor3 = scope:Computed(function(use)
                 return use(Theme:GetTheme(use(props.Theme) or "MainText"))
