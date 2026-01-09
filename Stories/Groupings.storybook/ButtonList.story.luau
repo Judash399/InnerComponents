@@ -16,45 +16,43 @@ local story = {
     controls = controls,
 
     story = function(props)
-        local Frame = InnerComponents.Layout.Frame(props.scope)
-        local Button = InnerComponents.Interaction.TextButton(props.scope)
-        local Padding = InnerComponents.Layout.Padding(props.scope)
-        local Text = InnerComponents.Content.Text(props.scope)
+
+        local scope = props.scope:innerScope(InnerComponents)
 
         InnerComponents.SetAcent(props.controls.hue)
 
         --TODO: Make this
-        Frame {
+        scope:Frame {
             Size = UDim2.new(0, 300, 0, 40),
             Level = 1.5,
             Parent = props.target,
             AutoLayout = false,
             Children = {
-                Padding {},
+                scope:Padding {},
                 
-                props.scope:New "UIListLayout" {
+                scope:New "UIListLayout" {
                     FillDirection = Enum.FillDirection.Horizontal,
                     Padding = UDim.new(0, 5),
                     SortOrder = Enum.SortOrder.LayoutOrder,
                     VerticalAlignment = Enum.VerticalAlignment.Center,
                 },
 
-                InnerComponents.Content.ImageIcon(props.scope) {
+                scope:ImageIcon {
                     IconName = "alert-triangle",
                     Size = UDim2.new(1, -10, 1, -10),
                 },
 
-                Text {
+                scope:Text {
                     Text = "Test Alert!",
                     Size = UDim2.new(0, 0, 0, 30),
                     Children = {
-                        props.scope:New "UIFlexItem" {
+                        scope:New "UIFlexItem" {
                             FlexMode = Enum.UIFlexMode.Fill
                         }
                     }
                 },
 
-                InnerComponents.Interaction.IconButton(props.scope) {
+                scope:IconButton {
                     IconName = "x",
                     Background = false,
                 }

@@ -46,7 +46,7 @@ return function(Scope: Fusion.Scope<any>)
             ImageTransparency = scope:Spring(scope:Computed(function(use)
                 local enabled = use(props.Enabled)
 
-                return if enabled then .85 else 1
+                return if enabled then 0.95 else 1
             end), 25, 1),
             Position = scope:Computed(function(use)
                 local position = use(props.Position)

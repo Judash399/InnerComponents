@@ -16,11 +16,7 @@ local story = {
     controls = controls,
 
     story = function(props)
-        local Frame = InnerComponents.Layout.Frame(props.scope)
-        local Button = InnerComponents.Interaction.TextButton(props.scope)
-        local Padding = InnerComponents.Layout.Padding(props.scope)
-        local Text = InnerComponents.Content.Text(props.scope)
-        local Header = InnerComponents.Content.Header(props.scope)
+        local scope = props.scope:innerScope(InnerComponents)
 
         InnerComponents.SetAcent(props.controls.hue)
 
@@ -38,32 +34,25 @@ local story = {
             end
         end)
 
-        Frame {
+        scope:Frame {
             Size = UDim2.new(0, 300, 0, 0),
             Level = 1.5,
             AutoSize = Enum.AutomaticSize.Y,
             Parent = props.target,
-            AutoLayout = false,
+            LayoutPadding = UDim.new(0, 5),
 
             Children = {
-                Padding {
+                scope:Padding {
                     LeftAmount = UDim.new(0, 10),
                     BottomAmount = UDim.new(0, 0),
                 },
-                
-                props.scope:New "UIListLayout" {
-                    FillDirection = Enum.FillDirection.Vertical,
-                    Padding = UDim.new(0, 5),
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    VerticalAlignment = Enum.VerticalAlignment.Center,
-                },
 
-                Header {
+                scope:Header {
                     Text = "Confirm Action",
                     Size = UDim2.new(0, 0, 0, 30),
                 },
 
-                Text {
+                scope:Paragraph {
                     Text = "To confirm, please enter your username and press continue.",
                     Wraps = true,
                     Size = UDim2.new(1, 0, 0, 30),
@@ -71,24 +60,24 @@ local story = {
                 },
 
                 --Padding
-                Frame {
+                scope:Frame {
                     Blank = true,
                     Size = UDim2.new(1, 0, 0, 2)
                 },
 
-                InnerComponents.Interaction.TextBox(props.scope) {
+                scope:TextBox {
                     PlaceholderText = "ExampleUsername123",
                     Text = text,
                     Icon = "user"
                 },
 
                 --Padding
-                Frame {
+                scope:Frame {
                     Blank = true,
                     Size = UDim2.new(1, 0, 0, 10)
                 },
 
-                Frame {
+                scope:Frame {
                     Blank = true,
                     Size = UDim2.new(1, 0, 0, 40),
                     AutoLayout = false,
@@ -101,13 +90,13 @@ local story = {
                             HorizontalAlignment = Enum.HorizontalAlignment.Right,
                         },
 
-                        InnerComponents.Interaction.TextButton(props.scope) {
+                        scope:TextButton {
                             Text = "Back",
                             Primary = false,
                             Size = UDim2.new(0, 80, 0, 30)
                         },
 
-                        InnerComponents.Interaction.TextButton(props.scope) {
+                        scope:TextButton {
                             Text = "Continue",
                             Primary = true,
                             Size = UDim2.new(0, 80, 0, 30),

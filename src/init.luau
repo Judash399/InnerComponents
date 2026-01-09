@@ -8,35 +8,27 @@ local Plugin = script.Plugin
 local Theme = require(script.Utils.Theme)
 
 local components = {
-    --Components that take some sort of input from the user.
-    Interaction = {
-        BaseButton = require(Interaction.BaseButton),
-        TextButton = require(Interaction.TextButton),
-        IconButton = require(Interaction.IconButton),
-        TextBox = require(Interaction.TextBox),
-        Toggle = require(Interaction.Toggle),
-    },
+    --Interaction - Components that take some sort of input from the user.
+    BaseButton = require(Interaction.BaseButton),
+    TextButton = require(Interaction.TextButton),
+    IconButton = require(Interaction.IconButton),
+    TextBox = require(Interaction.TextBox),
+    Toggle = require(Interaction.Toggle),
 
-    --Components that define the layout of a UI.
-    Layout = {
-        Frame = require(Layout.Frame),
-        Padding = require(Layout.Padding),
-        Scroller = require(Layout.Scroller)
-    },
+    --Layout - Components that define the layout of a UI.
+    Frame = require(Layout.Frame),
+    Padding = require(Layout.Padding),
+    Scroller = require(Layout.Scroller),
 
-    --Components that define the content of a UI.
-    Content = {
-        Text = require(Content.Text),
-        Pargraph = require(Content.Paragraph),
-        Header = require(Content.Header),
-        ImageIcon = require(Content.ImageIcon),
-        Tooltip = require(Content.Tooltip),
-    },
+    --Content - Components that define the content of a UI.
+    Text = require(Content.Text),
+    Paragraph = require(Content.Paragraph),
+    Header = require(Content.Header),
+    ImageIcon = require(Content.ImageIcon),
+    Tooltip = require(Content.Tooltip),
 
-    --Components that are intended for use specificly within plugins.
-    Plugin = {
-        VerticalView = require(Plugin.VerticalPlugin),
-    },
+    --Plugin - Components that are intended for use specificly within plugins.
+    VerticalView = require(Plugin.VerticalPlugin),
 
     Methods = {
         Grab = require(script.Utils.Grabber).Grab

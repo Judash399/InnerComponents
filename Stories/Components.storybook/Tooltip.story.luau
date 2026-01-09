@@ -19,15 +19,17 @@ local story = {
 
     story = function(props)
 
+        local scope = props.scope:innerScope(InnerComponents)
+
         InnerComponents.SetAcent(12)
 
-        local frame = props.scope:New "Frame" {
+        local frame = scope:New "Frame" {
             Parent = props.target,
             Position = UDim2.new(.5, 0, .5, 0),
             Size = UDim2.new(0, 100, 0, 100),
         }
 
-        InnerComponents.Content.Tooltip(props.scope, {
+        scope:Tooltip {
             Parent = props.target,
             Target = frame,
             Direction = props.controls.direction,
@@ -35,14 +37,14 @@ local story = {
             Active = props.controls.Enabled,
 
             Children = {
-                InnerComponents.Content.Header(props.scope) {
+                scope:Header {
                     Text = "Tooltip"
                 },
-                InnerComponents.Content.Pargraph(props.scope) {
+                scope:Paragraph {
                     Text = "This is a very cool test tooltip."
                 }
             }
-        })
+        }
     end
 }
 

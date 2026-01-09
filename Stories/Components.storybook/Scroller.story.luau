@@ -17,13 +17,12 @@ local story = {
     controls = controls,
 
     story = function(props)
+
+        local scope = props.scope:innerScope(InnerComponents)
         
         InnerComponents.SetAcent(props.controls.hue)
 
-        local IconButton = InnerComponents.Interaction.IconButton(props.scope)
-        local Frame = InnerComponents.Layout.Frame(props.scope)
-
-        InnerComponents.Layout.Frame(props.scope) {
+        scope:Frame {
             Size = props.scope:Computed(function(use)
                 local size = use(props.controls.size)
 
@@ -37,28 +36,28 @@ local story = {
                     SortOrder = Enum.SortOrder.LayoutOrder,
                     VerticalAlignment = Enum.VerticalAlignment.Top,
                 },
-                Frame {
+                scope:Frame {
                     Hidden = true,
                     Size = UDim2.new(1, 0, 0, 25),
 
                     Children = {
-                        InnerComponents.Layout.Padding(props.scope) {
+                        scope:Padding {
                             Amount = UDim.new(0, 2)
                         },
 
-                        props.scope:New "UIListLayout" {
+                        scope:New "UIListLayout" {
                             FillDirection = Enum.FillDirection.Horizontal,
                             Padding = UDim.new(0, 2.5),
                             SortOrder = Enum.SortOrder.LayoutOrder,
                         },
                         
-                        InnerComponents.Interaction.TextBox(props.scope) {
+                        scope:TextBox {
                             PlaceholderText = "Search for a controller",
                             Fill = true,
                             Size = UDim2.new(0, 0, 0, 25)
                         },
 
-                        IconButton {
+                        scope:IconButton {
                             IconName = "settings",
                             Size = UDim2.new(0, 25, 0, 25),
                             Background = false,
@@ -66,45 +65,24 @@ local story = {
                     },
                 },
 
-                InnerComponents.Layout.Scroller(props.scope) {
+                scope:Scroller {
                     Children = {
-                        props.scope:New "UIListLayout" {
+                        scope:New "UIListLayout" {
                             FillDirection = Enum.FillDirection.Vertical,
                             Padding = UDim.new(0, 2.5),
                             SortOrder = Enum.SortOrder.LayoutOrder,
                         },
-                        IconButton {
+                        scope:IconButton {
                             IconName = "settings",
                             Size = UDim2.new(0, 25, 0, 25),
                             Background = false,
                         },
-                        IconButton {
+                        scope:IconButton {
                             IconName = "settings",
                             Size = UDim2.new(0, 25, 0, 25),
                             Background = false,
                         },
-                        IconButton {
-                            IconName = "settings",
-                            Size = UDim2.new(0, 25, 0, 25),
-                            Background = false,
-                        },
-
-                        IconButton {
-                            IconName = "settings",
-                            Size = UDim2.new(0, 25, 0, 25),
-                            Background = false,
-                        },
-                        IconButton {
-                            IconName = "settings",
-                            Size = UDim2.new(0, 25, 0, 25),
-                            Background = false,
-                        },
-                        IconButton {
-                            IconName = "settings",
-                            Size = UDim2.new(0, 25, 0, 25),
-                            Background = false,
-                        },
-                        IconButton {
+                        scope:IconButton {
                             IconName = "settings",
                             Size = UDim2.new(0, 25, 0, 25),
                             Background = false,

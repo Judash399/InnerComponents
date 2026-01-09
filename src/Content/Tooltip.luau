@@ -14,10 +14,6 @@ local Only = require(Root.Utils.Only)
 local Otherwise = require(Root.Utils.Otherwise)
 local Map = require(Root.Utils.Map)
 
---Components
-local Corner = require(Root.Primitives.Corner)
-local Padding = require(Root.Layout.Padding)
-
 --Refrences
 local Children = Fusion.Children
 local Out = Fusion.Out
@@ -38,6 +34,10 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
     AutoLayout: UsedAs<boolean>?,
     LayoutPadding: UsedAs<UDim>?,
 })
+    local scope = scope:innerScope({
+        Corner = require(Root.Primitives.Corner)
+    })
+
     local parent = scope:Value(props.Parent)
     local target = scope:Computed(Otherwise(props.Target, nil))
 
@@ -166,7 +166,7 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
                 })),
 
                 [Children] = {
-                    Corner(scope) {Level = 1},
+                    scope:Corner {Level = 1},
                     scope:New "Frame" {
                         Name = "Arrow",
                         Size = UDim2.new(0, 12, 0, 12),
@@ -196,7 +196,7 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
                         Rotation = 45,
 
                         [Children] = {
-                            Corner(scope) {Level = .5},
+                            scope:Corner {Level = .5},
                         }
                     },
                     scope:New "Frame" {
@@ -213,9 +213,7 @@ return function(scope: Fusion.Scope<typeof(Fusion)>, props: {
                                 Padding = scope:Computed(Otherwise(props.LayoutPadding, UDim.new(0, 5))),
                                 VerticalAlignment = Enum.VerticalAlignment.Center,
                             })),
-                            Padding(scope) {
-
-                            },
+                            scope:Padding {},
 
                             props.Children,
                         },

@@ -20,9 +20,11 @@ local story = {
 
     story = function(props)
 
+        local scope = props.scope:innerScope(InnerComponents)
+
         InnerComponents.SetAcent(props.controls.hue)
 
-        local FinalIcon = props.scope:Computed(function(use)
+        local FinalIcon = scope:Computed(function(use)
             local icon = use(props.controls.Icon)
             local usesIcon = use(props.controls.UsesIcon)
 
@@ -32,9 +34,10 @@ local story = {
                 return icon
             end
         end)
-        InnerComponents.Interaction.TextButton(props.scope) {
+        
+        scope:TextButton {
             theme = "Button",
-            parent = props.target,
+            Parent = props.target,
             Text = props.controls.Text,
             Size = UDim2.new(0, 100, 0, 30),
             IconID = FinalIcon,

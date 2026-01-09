@@ -13,10 +13,6 @@ local Otherwise = require(Root.Utils.Otherwise)
 
 local Grabber = require(Root.Utils.Grabber)
 
---Components
-local Corner = require(Root.Primitives.Corner)
-
-
 --Refrences
 local Children = Fusion.Children
 local Out = Fusion.Out
@@ -24,60 +20,61 @@ local Out = Fusion.Out
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>
 
-return function(scope: Fusion.Scope<any>)
-    return function(props: {
-        Size: UsedAs<UDim2>?,
-        Position: UsedAs<UDim2>?,
-        Children: {Instance}?,
-        Level: UsedAs<number>?,
-        AutoSize: Enum.AutomaticSize?,
-        Parent: Instance?,
-        AutoLayout: UsedAs<boolean>?,
-        LayoutPadding: UsedAs<UDim>?,
-        BackgroundColor: UsedAs<Theme.Theme>?,
+return function(scope: Fusion.Scope<any>, props: {
+    Size: UsedAs<UDim2>?,
+    Position: UsedAs<UDim2>?,
+    Children: {Instance}?,
+    Level: UsedAs<number>?,
+    AutoSize: Enum.AutomaticSize?,
+    Parent: Instance?,
+    AutoLayout: UsedAs<boolean>?,
+    LayoutPadding: UsedAs<UDim>?,
+    BackgroundColor: UsedAs<Theme.Theme>?,
+})
+    local scope = scope:innerScope({
+        Corner = require(Root.Primitives.Corner)
     })
-        local scope = scope:innerScope()
 
-        local parent = scope:Value(nil)
+    local parent = scope:Value(nil)
 
-        local props = Grabber.ConvertProps(scope, {
-            Parent = parent
-        }, props)
+    local props = Grabber.ConvertProps(scope, {
+        Parent = parent
+    }, props)
 
-        local Level = scope:Computed(Otherwise(props.Level, 1))
-        local AutoSize = scope:Computed(Otherwise(props.AutoSize, Enum.AutomaticSize.None))
-        local AutoLayout = scope:Computed(Otherwise(props.AutoLayout, true))
+    local Level = scope:Computed(Otherwise(props.Level, 1))
+    local AutoSize = scope:Computed(Otherwise(props.AutoSize, Enum.AutomaticSize.None))
+    local AutoLayout = scope:Computed(Otherwise(props.AutoLayout, true))
 
-        local frame = scope:New "Frame" {
-            Size = props.Size,
-            Position = props.Position,
-            BackgroundColor3 = scope:Computed(function(use)
-                local theme = use(props.BackgroundColor) or "CardBackground"
+    local frame = scope:New "Frame" {
+        Size = props.Size,
+        Position = props.Position,
+        BackgroundColor3 = scope:Computed(function(use)
+            local theme = use(props.BackgroundColor) or "CardBackground"
 
-                if typeof(theme) == "Color3" then
-                    return theme
-                end
+            if typeof(theme) == "Color3" then
+                return theme
+            end
 
-                return use(Theme:GetTheme(theme))
-            end),
-            AutomaticSize = AutoSize,
-            Parent = props.Parent,
-            [Out "Parent"] = parent,
+            return use(Theme:GetTheme(theme))
+        end),
+        AutomaticSize = AutoSize,
+        Parent = props.Parent,
+        [Out "Parent"] = parent,
 
-            [Children] = {
-                Corner(scope) {Level = Level},
+        [Children] = {
+            scope:Corner {Level = Level},
 
-                scope:Computed(Only(AutoLayout, scope:New "UIListLayout" {
-                    Name = "AutoLayout",
-                    Padding = props.LayoutPadding,
-                })),
+            scope:Computed(Only(AutoLayout, scope:New "UIListLayout" {
+                Name = "AutoLayout",
+                Padding = props.LayoutPadding,
+                SortOrder = Enum.SortOrder.LayoutOrder,
+            })),
 
-                props.Children
-            },
-        }
+            props.Children
+        },
+    }
 
-        Grabber.Export(frame, props)
+    Grabber.Export(frame, props)
 
-        return frame
-    end
+    return frame
 end

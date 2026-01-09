@@ -20,11 +20,7 @@ local story = {
     controls = controls,
 
     story = function(props)
-        local Frame = InnerComponents.Layout.Frame(props.scope)
-        local Button = InnerComponents.Interaction.TextButton(props.scope)
-        local Padding = InnerComponents.Layout.Padding(props.scope)
-        local Text = InnerComponents.Content.Text(props.scope)
-        local IconButton = InnerComponents.Interaction.IconButton(props.scope)
+        local scope = props.scope:innerScope(InnerComponents)
 
         InnerComponents.SetAcent(props.controls.hue)
 
@@ -47,15 +43,15 @@ local story = {
             Parent = props.target,
 
             [Children] = {
-                InnerComponents.Plugin.VerticalView(props.scope) {
+                scope:VerticalView {
                     TopbarChildren = {
-                        InnerComponents.Interaction.TextBox(props.scope) {
+                        scope:TextBox {
                             PlaceholderText = "Search for a controller",
                             Flex = true,
                             Size = UDim2.new(0, 0, 1, 0)
                         },
 
-                        IconButton {
+                        scope:IconButton {
                             IconName = "settings",
                             Size = UDim2.new(1, 0, 1, 0),
                             AspectRatio = 1,
@@ -64,7 +60,7 @@ local story = {
                     },
 
                     ContentChildren = {
-                        Frame {
+                        scope:Frame {
                             Size = UDim2.new(1, 0, 1, 0),
                             Hidden = true,
 
@@ -77,15 +73,13 @@ local story = {
                                     VerticalAlignment = Enum.VerticalAlignment.Center,
                                 },
 
-                                Text {
+                                scope:Header {
                                     Text = "Oops!",
                                     Size = UDim2.new(1, 0, 0, 30),
-                                    TextSize = 25,
-                                    Weight = Enum.FontWeight.Bold,
                                     XAlign = Enum.TextXAlignment.Center
                                 },
 
-                                Text {
+                                scope:Text {
                                     Text = "You seem to not have any controllers! Try creating one!",
                                     Size = UDim2.new(1, 0, 0, 0),
                                     AutomaticSize = Enum.AutomaticSize.Y,

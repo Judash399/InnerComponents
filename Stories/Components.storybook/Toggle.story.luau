@@ -18,8 +18,9 @@ local story = {
     story = function(props)
         InnerComponents.SetAcent(props.controls.hue)
 
+        local scope = props.scope:innerScope(InnerComponents)
         
-        InnerComponents.Interaction.Toggle(props.scope) {
+        scope:Toggle {
             Parent = props.target
         }
     end
