@@ -18,6 +18,19 @@
 						"$className": "Folder",
 						"InnerComponents": {
 							"$path": "default.project.json"
+						},
+						"fusion": {
+							"$className": "ModuleScript",
+							"$properties": {
+								"Source": "return require(script.Parent.Parent[\"elttob_fusion@0.3.0\"][\"fusion\"])"
+							}
+						},
+
+						"lucide-icons": {
+							"$className": "ModuleScript",
+							"$properties": {
+								"Source": "return require(script.Parent.Parent[\"latte-soft_lucide-icons@0.1.3\"][\"lucide-icons\"])"
+							}
 						}
 					},
 					"$path": "Packages/_Index"
