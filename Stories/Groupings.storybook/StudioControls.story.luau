@@ -48,7 +48,8 @@ local story = {
                         scope:TextBox {
                             PlaceholderText = "Search for a controller",
                             Flex = true,
-                            Size = UDim2.new(0, 0, 1, 0)
+                            Size = UDim2.new(0, 0, 1, 0),
+                            Icon = "gamepad",
                         },
 
                         scope:IconButton {
@@ -63,9 +64,39 @@ local story = {
                         scope:Frame {
                             Size = UDim2.new(1, 0, 1, 0),
                             Hidden = true,
+                            AutoLayout = false,
 
                             Children = {
-                                props.scope:New "UIListLayout" {
+                                scope:New "UIListLayout" {
+                                    FillDirection = Enum.FillDirection.Vertical,
+                                    Padding = UDim.new(0, 5),
+                                    SortOrder = Enum.SortOrder.LayoutOrder,
+                                    HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                                    VerticalAlignment = Enum.VerticalAlignment.Center,
+                                },
+
+                                scope:Header {
+                                    Text = "Oops!",
+                                    Size = UDim2.new(1, 0, 0, 30),
+                                    XAlign = Enum.TextXAlignment.Center
+                                },
+
+                                scope:Text {
+                                    Text = "You seem to not have any controllers! Try creating one!",
+                                    Size = UDim2.new(1, 0, 0, 0),
+                                    AutomaticSize = Enum.AutomaticSize.Y,
+                                    Wraps = true,
+                                    XAlign = Enum.TextXAlignment.Center
+                                },
+                            }
+                        },
+                        scope:Frame {
+                            Size = UDim2.new(1, 0, 1, 0),
+                            Hidden = true,
+                            AutoLayout = false,
+
+                            Children = {
+                                scope:New "UIListLayout" {
                                     FillDirection = Enum.FillDirection.Vertical,
                                     Padding = UDim.new(0, 5),
                                     SortOrder = Enum.SortOrder.LayoutOrder,

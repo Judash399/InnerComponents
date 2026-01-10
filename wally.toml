@@ -1,6 +1,6 @@
 [package]
 name = "judash399/innercomponents"
-version = "0.1.1"
+version = "0.1.2"
 registry = "https://github.com/UpliftGames/wally-index"
 
 repository = "https://github.com/Judash399/InnerComponents"
@@ -8,6 +8,9 @@ repository = "https://github.com/Judash399/InnerComponents"
 realm = "shared"
 license = "MIT"
 description = "A modern, simple component library for Fusion designed to feel part of Roblox Studio."
+
+exclude = ["**"]
+include = ["src", "src/*", "default.project.json", "wally.lock", "wally.toml"]
 
 [dependencies]
 fusion = "elttob/fusion@0.3.0"

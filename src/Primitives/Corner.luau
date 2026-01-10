@@ -5,7 +5,7 @@ A primitive component that creates a UICorner instance with pre-set values.
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 
 local Otherwise = require(Root.Utils.Otherwise)
 

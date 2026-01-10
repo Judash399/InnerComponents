@@ -5,7 +5,7 @@ A primitive component used by other component like buttons that creates a glow e
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 local Theme = require(Root.Utils.Theme)
 
 --Types

@@ -5,7 +5,7 @@ The system that powers the Grab function.
 --Services
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 
 local Grabber = {}
 

@@ -5,7 +5,7 @@ A base component that creates a text label with some pre-defined styling.
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 local Theme = require(Root.Utils.Theme)
 
 local Otherwise = require(Root.Utils.Otherwise)

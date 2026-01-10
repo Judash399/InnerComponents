@@ -1,7 +1,7 @@
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 local Theme = require(Root.Utils.Theme)
 
 --Refrences
@@ -34,7 +34,8 @@ return function(scope: Fusion.Scope<any>, props: {
                 [Children] = {
                     scope:New "UIListLayout" {
                         FillDirection = Enum.FillDirection.Horizontal,
-                        Padding = UDim.new(0, 3)
+                        Padding = UDim.new(0, 3),
+                        SortOrder = Enum.SortOrder.LayoutOrder,
                     },
 
                     scope:New "UIPadding" {
@@ -49,9 +50,10 @@ return function(scope: Fusion.Scope<any>, props: {
 
             --Content view
             scope:Scroller {
-                Position = UDim2.new(0, 0, 0, 25),
-                Size = UDim2.new(1, 0, 1, -25),
+                Position = UDim2.new(0, 0, 0, 30),
+                Size = UDim2.new(1, 0, 1, -30),
                 BackgroundColor3 = Theme:GetTheme(Enum.StudioStyleGuideColor.MainBackground),
+                Scaled = true,
 
                 Children = {
                     scope:New "UIListLayout" {

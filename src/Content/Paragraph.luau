@@ -5,7 +5,7 @@ A component that creates a text label styling to look like a paragraph.
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 
 --Types
 type UsedAs<T> = Fusion.UsedAs<T>

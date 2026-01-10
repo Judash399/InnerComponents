@@ -1,5 +1,5 @@
 --Modules
-local Lucide = require(script.Parent.Parent.Parent["lucide-icons"])
+local Lucide = require(script.Parent.Parent.Dependencys).lucideIcons
 
 local module = {}
 

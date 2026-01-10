@@ -1,5 +1,3 @@
-local Fusion = require(script.Parent.fusion)
-
 local Interaction = script.Interaction
 local Layout = script.Layout
 local Content = script.Content

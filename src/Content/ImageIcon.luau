@@ -5,7 +5,7 @@ A component that creates a ImageLabel styling with the icon set to a lucide icon
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 local Theme = require(Root.Utils.Theme)
 local Icon = require(Root.Utils.Icon)
 

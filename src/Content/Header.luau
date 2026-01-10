@@ -5,7 +5,7 @@ A component that creates a text label styling to look like a header.
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 
 local Otherwise = require(Root.Utils.Otherwise)
 

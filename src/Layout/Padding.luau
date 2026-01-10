@@ -5,7 +5,7 @@ A component that creates a UIPadding component with defaults.
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 local Theme = require(Root.Utils.Theme)
 
 local Otherwise = require(Root.Utils.Otherwise)

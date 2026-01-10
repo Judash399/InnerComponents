@@ -5,7 +5,7 @@ A component that creates a text-box with text input.
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 
 local Theme = require(Root.Utils.Theme)
 local Only = require(Root.Utils.Only)
@@ -81,6 +81,12 @@ return function(scope: Fusion.Scope<any>, props: {
                 Thickness = thickness,
                 Transparency = transparency
             },
+            scope:Computed(Only(
+                props.Flex,
+                scope:New "UIFlexItem" {
+                FlexMode = Enum.UIFlexMode.Fill,
+                }
+            )),
             scope:New "TextBox" {
                 Size = UDim2.new(1, 0, 1, 0),
                 TextXAlignment = Enum.TextXAlignment.Left,
@@ -174,13 +180,6 @@ return function(scope: Fusion.Scope<any>, props: {
                             end
                         end)
                     },
-
-                    scope:Computed(Only(
-                        props.Flex,
-                        scope:New "UIFlexItem" {
-                        FlexMode = Enum.UIFlexMode.Fill,
-                        }
-                    ))
                 }
             }
         }

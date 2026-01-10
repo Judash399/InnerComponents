@@ -1,5 +1,5 @@
 --Modules
-local Fusion = require(script.Parent.Parent.Parent.fusion)
+local Fusion = require(script.Parent.Parent.Dependencys).Fusion
 local OklabConverter = require(script.Parent.OklabConverter)
 
 --Refrences

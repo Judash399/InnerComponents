@@ -5,7 +5,7 @@ A component that creates a frame instance with pre-defined styling intended for 
 --Modules
 local Root = script.Parent.Parent
 
-local Fusion = require(Root.Parent.fusion)
+local Fusion = require(Root.Dependencys).Fusion
 local Theme = require(Root.Utils.Theme)
 
 local Only = require(Root.Utils.Only)
