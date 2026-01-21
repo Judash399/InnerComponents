@@ -20,8 +20,14 @@ local story = {
 
         local scope = props.scope:innerScope(InnerComponents)
         
-        scope:Toggle {
-            Parent = props.target
+        scope:SegmentedControl {
+            Parent = props.target,
+
+            Children = {
+                scope:SegmentedControlItem {
+                    
+                }
+            }
         }
     end
 }
