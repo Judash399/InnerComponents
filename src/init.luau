@@ -12,6 +12,8 @@ local components = {
     IconButton = require(Interaction.IconButton),
     TextBox = require(Interaction.TextBox),
     Toggle = require(Interaction.Toggle),
+    SegmentedControl = require(Interaction.SegmentedControl),
+    SegmentedControlItem = require(Interaction.SegmentedControlItem),
 
     --Layout - Components that define the layout of a UI.
     Frame = require(Layout.Frame),

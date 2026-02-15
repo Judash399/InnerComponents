@@ -1,5 +1,3 @@
---!nocheck
-
 --Services
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -18,7 +16,7 @@ local story = {
     story = function(props)
         InnerComponents.SetAcent(props.controls.hue)
 
-        local scope = props.scope:innerScope(InnerComponents)
+        local scope = props.scope:innerScope(Fusion, InnerComponents)
         
         scope:SegmentedControl {
             Parent = props.target,

@@ -122,7 +122,7 @@ return function(Scope: Fusion.Scope<any>, props: {
     end), 50, 1)
 
     local canvasGroup = scope:New "CanvasGroup" {
-        Size = props.Size or UDim2.new(0, 200, 0, 50),
+        Size = props.Size or UDim2.new(0, 80, 0, 30),
         Parent = props.parent,
         BackgroundTransparency = 1,
         
@@ -168,7 +168,6 @@ return function(Scope: Fusion.Scope<any>, props: {
         
         [OnEvent "MouseMoved"] = function(x, y)
             MousePos:set(Vector2.new(x, y))
-
         end,
 
         [OnEvent "Activated"] = function()
@@ -215,7 +214,7 @@ return function(Scope: Fusion.Scope<any>, props: {
         }
     }
 
-    local highlight = scope:Glow(scope) {
+    local highlight = scope:Glow {
         Parent = button,
         Color = highlightTheme,
         Size = scope:Computed(function(use)

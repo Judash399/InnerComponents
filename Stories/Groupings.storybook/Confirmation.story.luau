@@ -71,11 +71,6 @@ local story = {
                     Icon = "user"
                 },
 
-                --Padding
-                scope:Frame {
-                    Blank = true,
-                    Size = UDim2.new(1, 0, 0, 10)
-                },
 
                 scope:Frame {
                     Blank = true,
@@ -93,7 +88,7 @@ local story = {
                         scope:TextButton {
                             Text = "Back",
                             Primary = false,
-                            Size = UDim2.new(0, 80, 0, 30)
+                            Size = UDim2.new(0, 70, 0, 30)
                         },
 
                         scope:TextButton {
