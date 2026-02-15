@@ -119,7 +119,7 @@ return function(scope: Fusion.Scope<any>, props: {
                         Size = scope:Spring(scope:Computed(function(use)
                             local visible = use(UsesIcon)
 
-                            return if visible then UDim2.new(0, 35, 1, 10) else UDim2.new(0, 15, 1, 10)
+                            return if visible then UDim2.new(0, 33, 1, 10) else UDim2.new(0, 15, 1, 10)
                         end), 25, 1),
                         Position = scope:Computed(function(use)
                             local visible = use(UsesIcon)
@@ -135,7 +135,7 @@ return function(scope: Fusion.Scope<any>, props: {
                             scope:New "UIGradient" {
                                 Transparency = scope:Computed(function(use)
                                     if use(UsesIcon) then
-                                        return NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.6, 0), NumberSequenceKeypoint.new(1, 1)})
+                                        return NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.65, 0), NumberSequenceKeypoint.new(1, 1)})
                                     else
                                         return NumberSequence.new(0, 1)
                                     end

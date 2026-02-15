@@ -33,7 +33,7 @@ return function(scope: Fusion.Scope<any>, props: {
         local icon = Icon.GetIcon(use(props.IconName))
 
         if not icon then
-            warn(`[InnerComponents] the icon '{props.IconName}' is not an icon in the lucide icon set! Replacing with 'diamond'. Full icon list at lucide.dev`)
+            warn(`[InnerComponents] the icon '{use(props.IconName)}' is not an icon in the lucide icon set! Replacing with 'diamond'. Full icon list at lucide.dev`)
             icon = Icon.GetIcon("diamond")
         end
 

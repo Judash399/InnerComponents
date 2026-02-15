@@ -9,7 +9,7 @@ local InnerComponents = require(Packages.InnerComponents)
 
 local controls = {
     Text = "Button",
-    Icon = "http://www.roblox.com/asset/?id=8517323790",
+    Icon = "search",
     UsesIcon = true,
     hue = 0,
 }
@@ -39,6 +39,7 @@ local story = {
             theme = "Button",
             Parent = props.target,
             Text = props.controls.Text,
+            Icon = props.controls.Icon,
             Size = UDim2.new(0, 100, 0, 30),
             IconID = FinalIcon,
             Primary = true,

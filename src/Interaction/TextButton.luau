@@ -1,7 +1,9 @@
+
 --Modules
 local Root = script.Parent.Parent
 
 local Fusion = require(Root.Dependencys).Fusion
+local Only = require(Root.Utils.Only)
 
 --Refrences
 local Children = Fusion.Children
@@ -20,7 +22,8 @@ return function(scope: Fusion.Scope<any>, props: {
 })
     local scope = scope:innerScope({
         Text = require(Root.Content.Text),
-        BaseButton = require(script.Parent.BaseButton)
+        BaseButton = require(script.Parent.BaseButton),
+        ImageIcon = require(Root.Content.ImageIcon)
     })
 
     local textTheme = scope:Computed(function(use)
@@ -47,6 +50,7 @@ return function(scope: Fusion.Scope<any>, props: {
                         FillDirection = Enum.FillDirection.Horizontal,
                         HorizontalAlignment = Enum.HorizontalAlignment.Center,
                         VerticalAlignment = Enum.VerticalAlignment.Center,
+                        Padding = UDim.new(0, 1),
                     },
                     scope:Text {
                         Size = UDim2.new(0, 0, 1, 0),
@@ -56,6 +60,13 @@ return function(scope: Fusion.Scope<any>, props: {
                         TextColor = textTheme,
                         XAlign = Enum.TextXAlignment.Center
                     },
+                    scope:Computed(Only(scope:Computed(function(use)
+                        return props.Icon ~= nil
+                    end), scope:ImageIcon {
+                        IconName = props.Icon or "diamond",
+                        Theme = textTheme,
+                        Size = UDim2.new(0, 16, 0, 16)
+                    }))
                 }
             }
         }
