@@ -34,7 +34,7 @@ return function(Scope: Fusion.Scope<any>)
                 end
             end), 25, 1),
             BackgroundTransparency = 1,
-            ZIndex = -1,
+            ZIndex = 1,
             AnchorPoint = Vector2.new(.5, .5),
 
             --Inside a computed so it can adapt to color changes if the prop is changed.
