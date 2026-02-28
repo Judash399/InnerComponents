@@ -52,10 +52,6 @@ return function(Scope: Fusion.Scope<any>, props: {
 
     local Hovering = props.Hovering or scope:Value(false)
 
-    local props = Grabber.ConvertProps(scope, {
-        Parent = parent
-    }, props)
-
     local Pressed = scope:Value(false)
     local Enabled = props.Enabled or true
     local MousePos = props.MousePosition or scope:Value(Vector2.new(0, 0))
@@ -77,6 +73,8 @@ return function(Scope: Fusion.Scope<any>, props: {
     end)
 
     local MouseHolding = props.MouseHolding or scope:Value(false)
+
+    local absoluteSize = props.AbsSizeReturn or scope:Value(nil)
 
     local DimSpring = scope:Spring(scope:Computed(function(use)
         local light = use(Theme:IsLight())
@@ -189,7 +187,7 @@ return function(Scope: Fusion.Scope<any>, props: {
             MouseHolding:set(false)
         end,
 
-        [Out "AbsoluteSize"] = props.AbsSizeReturn,
+        [Out "AbsoluteSize"] = absoluteSize,
 
         BackgroundTransparency = scope:Computed(function(use)
             local hover = use(HoverEffects)
@@ -219,7 +217,7 @@ return function(Scope: Fusion.Scope<any>, props: {
         Parent = button,
         Color = highlightTheme,
         Size = scope:Computed(function(use)
-            local absoluteSize: Vector2 = button.AbsoluteSize
+            local absoluteSize: Vector2 = use(absoluteSize)
 
             if absoluteSize == nil then
                 return Vector2.new(0, 0)
@@ -237,8 +235,6 @@ return function(Scope: Fusion.Scope<any>, props: {
         end),
         Enabled = HoverEffects
     }
-
-    Grabber.Export(canvasGroup, props)
 
     return canvasGroup
 end
